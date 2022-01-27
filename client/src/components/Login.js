@@ -8,7 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const { user, setUser } = useUser();
-  console.log(user);
+
   const onSubmit = async (data) => {
     const { email, password } = data;
     try {
@@ -38,36 +38,33 @@ const Login = () => {
 
   useEffect(() => {
     if (user.isLoggedIn) {
-      navigate('/');
+      navigate('/', { replace: true });
     }
   }, [user, navigate]);
 
   return (
-    <div className='w-full h-[calc(100vh-90px)] flex justify-center items-center'>
+    <div className='flex h-[calc(100vh-90px)] w-full items-center justify-center'>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='w-[350px] h-[455px] border-2 border-gray-300 m-auto rounded-md flex flex-col items-center justify-between py-8'
+        className='m-auto flex h-[455px] w-[350px] flex-col items-center justify-between rounded-md border-2 border-gray-300 py-8'
       >
-        <h1 className='text-primary text-4xl font-bold'>Login</h1>
+        <h1 className='text-4xl font-bold text-primary'>Login</h1>
         <input
           type='email'
           placeholder='Email'
           required
-          className='w-[300px] h-12 border-2 border-gray-300 rounded-md p-3 focus:border-accent'
+          className='h-12 w-[300px] rounded-md border-2 border-gray-300 p-3 focus:border-accent'
           {...register('email')}
         />
         <input
           type='text'
           placeholder='Password'
           required
-          className='w-[300px] h-12 border-2 border-gray-300 rounded-md p-3 focus:border-accent'
+          className='h-12 w-[300px] rounded-md border-2 border-gray-300 p-3 focus:border-accent'
           {...register('password')}
         />
-        <p className='text-red-500 font-semibold'>{error}</p>
-        <button
-          type='submit'
-          className='w-60 h-[60px] text-white font-bold p-4 rounded-md bg-primary text-2xl'
-        >
+        <p className='font-semibold text-red-500'>{error}</p>
+        <button type='submit' className='h-[60px] w-60 rounded-md bg-primary p-4 text-2xl font-bold text-white'>
           LOGIN
         </button>
       </form>
