@@ -6,6 +6,7 @@ import Menu from './Menu';
 const Base = ({ children }) => {
   const { pathname } = useLocation();
   const [menuVisible, setMenuVisible] = useState(false);
+
   return (
     <>
       <Header toggleMenu={setMenuVisible} />
