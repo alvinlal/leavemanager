@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useUser from '../hooks/useUser';
 
 const Login = () => {
@@ -8,6 +8,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const { user, setUser } = useUser();
+  const location = useLocation();
+
+  const from = location.state?.from || '/';
 
   const onSubmit = async (data) => {
     const { email, password } = data;
@@ -38,9 +41,9 @@ const Login = () => {
 
   useEffect(() => {
     if (user.isLoggedIn) {
-      navigate('/', { replace: true });
+      navigate(from, { replace: true });
     }
-  }, [user, navigate]);
+  }, [user, navigate, from]);
 
   return (
     <div className='flex h-[calc(100vh-90px)] w-full items-center justify-center'>
