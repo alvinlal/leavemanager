@@ -5,29 +5,6 @@ const Header = ({ toggleMenu }) => {
   const { user } = useUser();
   const { pathname } = useLocation();
 
-  const currentPageHeader = () => {
-    switch (pathname) {
-      case '/': {
-        return 'DashBoard';
-      }
-      case '/departments': {
-        return 'Departments';
-      }
-      case '/teachers': {
-        return 'Teachers';
-      }
-      case '/staffs': {
-        return 'Staffs';
-      }
-      case '/reports': {
-        return 'Reports';
-      }
-      default: {
-        return '';
-      }
-    }
-  };
-
   return (
     <>
       {pathname === '/login' ? (
@@ -39,7 +16,6 @@ const Header = ({ toggleMenu }) => {
       ) : (
         <>
           <header className='flex h-16 w-full items-center border-2 border-secondary px-5 py-3 md:h-[90px]'>
-            <p className='ml-[300px] hidden text-4xl font-bold text-primary md:block'>{currentPageHeader()}</p>
             <div className='flex h-8 w-9 cursor-pointer flex-col justify-between md:hidden' onClick={() => toggleMenu(true)}>
               <span className='h-[6px] w-full bg-primary'></span>
               <span className='h-[6px] w-full bg-primary'></span>
