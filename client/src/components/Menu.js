@@ -1,12 +1,13 @@
 import useUser from '../hooks/useUser';
 import useDeviceDetect from '../hooks/useDeviceDetect';
-import { HomeIcon, UserGroupIcon, UserIcon, UserCircleIcon, DocumentTextIcon, LogoutIcon, XIcon } from '@heroicons/react/outline';
-import { useNavigate } from 'react-router-dom';
+import { HomeIcon, UserGroupIcon, UserIcon, UserCircleIcon, DocumentTextIcon, LogoutIcon, XIcon, ChevronRightIcon } from '@heroicons/react/outline';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Menu = ({ menuVisible, toggleMenu }) => {
   const { user } = useUser();
   const isMobile = useDeviceDetect();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const signOut = () => {};
 
@@ -26,30 +27,35 @@ const Menu = ({ menuVisible, toggleMenu }) => {
               <HomeIcon className='h-7 w-7 text-white' />
             </div>
             <p className='ml-4 text-lg'>DashBoard</p>
+            {pathname === '/' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
           </div>
           <div onClick={() => showComponent('/departments')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
             <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
               <UserGroupIcon className='h-7 w-7 text-white' />
             </div>
             <p className='ml-4 text-lg'>Departments</p>
+            {pathname === '/departments' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
           </div>
           <div onClick={() => showComponent('/teachers')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
             <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
               <UserIcon className='h-7 w-7 text-white' />
             </div>
             <p className='ml-4 text-lg'>Teachers</p>
+            {pathname === '/teachers' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
           </div>
           <div onClick={() => showComponent('/staffs')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
             <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
               <UserCircleIcon className='h-7 w-7 text-white' />
             </div>
             <p className='ml-4 text-lg'>Staffs</p>
+            {pathname === '/staffs' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
           </div>
           <div onClick={() => showComponent('/reports')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
             <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
               <DocumentTextIcon className='h-7 w-7 text-white' />
             </div>
             <p className='ml-4 text-lg'>Reports</p>
+            {pathname === '/reports' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
           </div>
           <div onClick={signOut} className='mt-14 flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
             <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
@@ -67,7 +73,7 @@ const Menu = ({ menuVisible, toggleMenu }) => {
   };
 
   return (
-    <div className={`${!menuVisible && 'hidden'} fixed left-0 top-0 z-10 h-[100vh]  w-full bg-primary md:block md:w-[270px]`}>
+    <div className={`${!menuVisible && 'hidden'} fixed  left-0 top-0 z-10 h-[100vh] w-full overflow-y-auto  overflow-x-hidden bg-primary md:block md:w-[270px]`}>
       <div className='m-auto my-5 hidden h-[46px] w-[186px] items-center justify-center rounded-md bg-[#3E4173] md:flex '>
         <h1 className='text-lg font-bold text-white'>LEAVEMANAGER</h1>
       </div>

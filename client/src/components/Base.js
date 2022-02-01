@@ -11,7 +11,7 @@ const Base = ({ children }) => {
     <>
       <Header toggleMenu={setMenuVisible} />
       {pathname !== '/login' && <Menu menuVisible={menuVisible} toggleMenu={setMenuVisible} />}
-      <div className={`${pathname !== '/login' && 'ml-[270px] '}`}>{children}</div>
+      <div className={`${pathname !== '/login' && 'md:ml-[270px] '}`}>{children}</div>
     </>
   );
 };
