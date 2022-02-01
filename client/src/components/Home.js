@@ -7,9 +7,9 @@ const Home = () => {
   const { user } = useUser();
 
   const renderDashBoad = () => {
-    if (user.type === 'TEACHER') return <TeacherDashBoard />;
-    if (user.type === 'ADMIN') return <AdminDashBoard />;
-    if (user.type === 'STAFF') return <StaffDashBoard />;
+    if (user.user_type === 'TEACHER') return <TeacherDashBoard />;
+    if (user.user_type === 'ADMIN') return <AdminDashBoard />;
+    if (user.user_type === 'STAFF') return <StaffDashBoard />;
   };
 
   return <>{renderDashBoad()}</>;

@@ -19,7 +19,7 @@ const Menu = ({ menuVisible, toggleMenu }) => {
   };
 
   const renderMenuOptions = () => {
-    if (user.type === 'ADMIN') {
+    if (user.user_type === 'ADMIN') {
       return (
         <>
           <div onClick={() => showComponent('/')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
@@ -66,9 +66,9 @@ const Menu = ({ menuVisible, toggleMenu }) => {
         </>
       );
     }
-    if (user.type === 'TEACHER') {
+    if (user.user_type === 'TEACHER') {
     }
-    if (user.type === 'STAFF') {
+    if (user.user_type === 'STAFF') {
     }
   };
 
