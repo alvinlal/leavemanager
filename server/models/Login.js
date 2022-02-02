@@ -1,15 +1,15 @@
-import { DataTypes } from "sequelize";
-import db from "../config/db.js";
+import { DataTypes } from 'sequelize';
+import db from '../config/db.js';
 
 const Login = db.define(
-  "Login",
+  'Login',
   {
     username: {
       type: DataTypes.STRING,
       primaryKey: true,
     },
-    type: {
-      type: DataTypes.ENUM("ADMIN", "TEACHER", "STAFF"),
+    user_type: {
+      type: DataTypes.ENUM('ADMIN', 'TEACHER', 'STAFF'),
       allowNull: false,
     },
     password: {
@@ -18,15 +18,15 @@ const Login = db.define(
     },
   },
   {
-    tableName: "tbl_login",
+    tableName: 'tbl_login',
   }
 );
 
 try {
   await Login.sync();
-  console.log("Login table (re)created");
+  console.log('Login table (re)created');
 } catch (error) {
-  console.error("Unable to create login table : ", error);
+  console.error('Unable to create login table : ', error);
 }
 
 export default Login;
