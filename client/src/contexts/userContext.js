@@ -1,38 +1,16 @@
 import React, { useEffect, useState } from 'react';
-
+import useFetch from '../hooks/useFetch';
 const UserContext = React.createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
-  const getUser = async () => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API}/me`, {
-        credentials: 'include',
-      });
-      const data = await res.json();
-      setUser(data);
-    } catch (error) {
-      // TODO :- redirect to error page
-      alert('something went wrong, please try again later');
-    }
-  };
+  const { data } = useFetch(`${process.env.REACT_APP_API}/me`, {});
 
   useEffect(() => {
-    getUser();
-  }, []);
+    setUser(data);
+  }, [data]);
 
-  return (
-    <>
-      {user ? (
-        <UserContext.Provider value={{ user, setUser }}>
-          {children}
-        </UserContext.Provider>
-      ) : (
-        <h1>Loading...</h1>
-      )}
-    </>
-  );
+  return <>{user ? <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider> : <h1>Loading...</h1>}</>;
 };
 
 export { UserContext, UserProvider };

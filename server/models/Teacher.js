@@ -7,6 +7,7 @@ const Teacher = db.define(
     teacher_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     username: {
       type: DataTypes.STRING,
@@ -35,8 +36,8 @@ const Teacher = db.define(
       allowNull: false,
     },
     teacher_status: {
-      type: DataTypes.ENUM('active', 'inactive'),
-      defaultValue: 'active',
+      type: DataTypes.BOOLEAN,
+      defaultValue: 1,
     },
   },
   {

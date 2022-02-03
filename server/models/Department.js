@@ -7,21 +7,15 @@ const Department = db.define(
     dept_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-    },
-    hod_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'tbl_teacher',
-        key: 'teacher_id',
-      },
+      autoIncrement: true,
     },
     dept_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     dept_status: {
-      type: DataTypes.ENUM('active', 'inactive'),
-      defaultValue: 'active',
+      type: DataTypes.BOOLEAN,
+      defaultValue: 1,
     },
   },
   {

@@ -1,11 +1,14 @@
 import { useState } from 'react';
 
-const ToggleButton = ({ onToggle }) => {
-  const [isChecked, setIsChecked] = useState(false);
+const ToggleButton = ({ status, onToggle }) => {
+  const [isChecked, setIsChecked] = useState(status);
 
   const handleClick = () => {
     setIsChecked(!isChecked);
-    onToggle();
+    onToggle().catch((error) => {
+      alert('something went wrong');
+      setIsChecked(!isChecked ? false : true);
+    });
   };
   return (
     <div className='relative mr-2 inline-block w-10 select-none align-middle' onClick={() => handleClick()}>
