@@ -73,7 +73,7 @@ const Menu = ({ menuVisible, toggleMenu }) => {
   };
 
   return (
-    <div className={`${!menuVisible && 'hidden'} fixed  left-0 top-0 z-10 h-[100vh] w-full overflow-y-auto  overflow-x-hidden bg-primary md:block md:w-[270px]`}>
+    <div className={`${!menuVisible && 'hidden'} fixed  left-0 top-0 z-30 h-[100vh] w-full overflow-y-auto  overflow-x-hidden bg-primary md:block md:w-[270px]`}>
       <div className='m-auto my-5 hidden h-[46px] w-[186px] items-center justify-center rounded-md bg-[#3E4173] md:flex '>
         <h1 className='text-lg font-bold text-white'>LEAVEMANAGER</h1>
       </div>

@@ -13,15 +13,11 @@ input:focus {
 }
 
 input:checked {
-  @apply: right-0 border-green-400;
+  @apply right-0 border-green-400;
   right: 0;
   border-color: #68d391;
 }
 input:checked + .toggle-label {
-  @apply: bg-green-400;
+  @apply bg-green-400;
   background-color: #68d391;
-}
-
-.test {
-  transition: 0.2s ease all;
 }
