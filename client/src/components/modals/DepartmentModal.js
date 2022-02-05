@@ -18,6 +18,7 @@ const DepartmentModal = ({ handleClose, departments, setDepartments, isEditing, 
       setDepartments([...departments, data]);
     }
     handleClose();
+    window.scrollTo(0, document.body.scrollHeight);
   };
 
   const updateDepartment = async (departmentDetails) => {
