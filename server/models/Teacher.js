@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import db from '../config/db.js';
+import Department from './Department.js';
+import Login from './Login.js';
 
 const Teacher = db.define(
   'Teacher',
@@ -8,20 +10,6 @@ const Teacher = db.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-    },
-    username: {
-      type: DataTypes.STRING,
-      references: {
-        model: 'tbl_login',
-        key: 'username',
-      },
-    },
-    dept_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'tbl_department',
-        key: 'dept_id',
-      },
     },
     teacher_firstname: {
       type: DataTypes.STRING,
@@ -32,7 +20,7 @@ const Teacher = db.define(
       allowNull: false,
     },
     teacher_designation: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('Prof', 'Asst.Prof', 'HOD'),
       allowNull: false,
     },
     teacher_status: {
@@ -44,6 +32,9 @@ const Teacher = db.define(
     tableName: 'tbl_teacher',
   }
 );
+
+Teacher.Login = Teacher.belongsTo(Login, { foreignKey: 'username' });
+Teacher.belongsTo(Department, { foreignKey: 'dept_id' });
 
 try {
   await Teacher.sync();

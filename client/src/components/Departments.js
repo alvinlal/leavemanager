@@ -10,7 +10,7 @@ const Departments = () => {
   const [departments, setDepartments] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [defaultValues, setDefaultValues] = useState(null);
-  const { data, error, isLoading } = useFetch(`${process.env.REACT_APP_API}/departments`, {});
+  const [data, error, isLoading] = useFetch(`${process.env.REACT_APP_API}/departments`, {});
   const [isModalVisible, setIsModalVisible, toggleModal] = useModal(false);
 
   const toggleStatus = async (id, currentStatus) => {
@@ -25,53 +25,56 @@ const Departments = () => {
     });
   };
 
+  useEffect(() => {
+    setDepartments(data);
+  }, [data]);
+
   const renderDepartments = () => {
     if (isLoading) {
       return <PulseAnimation noOfCells={4} />;
     } else if (departments) {
-      return departments.map((department, index) => (
-        <div key={index} className='table-row h-24 w-full '>
-          <div
-            data-title='Sl.No'
-            className={`flex w-full items-center justify-between  ${
-              index !== 0 ? 'border-t-2' : 'md:border-t-2'
-            } border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:before:content-none`}
-          >
-            {index + 1}
+      return departments.map((department, index) => {
+        const { dept_id, dept_name, dept_status } = department;
+        return (
+          <div key={index} className='table-row h-24 w-full '>
+            <div
+              data-title='Sl.No'
+              className={`flex w-full items-center justify-between  ${
+                index !== 0 ? 'border-t-2' : 'md:border-t-2'
+              } border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:before:content-none`}
+            >
+              {index + 1}
+            </div>
+            <div
+              data-title='Name'
+              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+            >
+              {dept_name}
+            </div>
+            <div
+              data-title='Status'
+              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+            >
+              <ToggleButton status={dept_status} onToggle={() => toggleStatus(dept_id, dept_status)} />
+            </div>
+            <div
+              data-title='Actions'
+              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+            >
+              <PencilIcon
+                className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'
+                onClick={() => {
+                  toggleModal();
+                  setIsEditing(true);
+                  setDefaultValues({ dept_name, dept_id });
+                }}
+              />
+            </div>
           </div>
-          <div
-            data-title='Name'
-            className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
-          >
-            {department.dept_name}
-          </div>
-          <div
-            data-title='Status'
-            className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
-          >
-            <ToggleButton status={department.dept_status} onToggle={() => toggleStatus(department.dept_id, department.dept_status)} />
-          </div>
-          <div
-            data-title='Actions'
-            className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
-          >
-            <PencilIcon
-              className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'
-              onClick={() => {
-                toggleModal();
-                setIsEditing(true);
-                setDefaultValues({ dept_name: department.dept_name, dept_id: department.dept_id });
-              }}
-            />
-          </div>
-        </div>
-      ));
+        );
+      });
     }
   };
-
-  useEffect(() => {
-    setDepartments(data);
-  }, [data]);
 
   return (
     <div className='flex flex-col justify-center p-5 md:py-6 md:px-9'>

@@ -21,6 +21,7 @@ const useSend = () => {
       return await res.json();
     } catch (error) {
       setError(error);
+      //show toast
       return { data: null };
     } finally {
       setIsLoading(false);

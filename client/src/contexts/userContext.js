@@ -5,7 +5,7 @@ const UserContext = React.createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const { data, error } = useFetch(`${process.env.REACT_APP_API}/me`, {});
+  const [data, error] = useFetch(`${process.env.REACT_APP_API}/me`, {});
 
   useEffect(() => {
     setUser(data);

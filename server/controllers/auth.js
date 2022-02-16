@@ -7,7 +7,7 @@ export const login = async (req, res) => {
 
   try {
     const user = await Login.findOne({
-      attributes: ['username', 'password', 'user_type'],
+      attributes: ['username', 'password', 'user_type', 'haschangedpass'],
       where: { username: email },
     });
 
@@ -27,7 +27,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const { username, user_type } = user;
+    const { username, user_type, haschangedpass } = user;
     var name;
 
     switch (user_type) {
@@ -53,15 +53,22 @@ export const login = async (req, res) => {
       }
     }
 
-    const token = jwt.sign({ username, user_type, name }, process.env.JWT_SECRET, { expiresIn: '25 days' });
+    const token = jwt.sign({ username, user_type, name }, process.env.JWT_SECRET, {
+      expiresIn: '25 days',
+    });
 
-    res.cookie('token', token, { httpOnly: true, maxAge: 2160000000, secure: process.env.ENV == 'production' ? true : false });
+    res.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 2160000000,
+      secure: process.env.ENV == 'production' ? true : false,
+    });
 
     return res.json({
       error: false,
       user: {
         username,
         user_type,
+        haschangedpass,
         name,
         isLoggedIn: true,
       },

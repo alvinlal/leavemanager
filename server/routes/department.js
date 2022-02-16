@@ -4,7 +4,7 @@ import {
   getAllDepartments,
   toggleDepartmentStatus,
   updateDepartment,
-} from '../controllers/department.js';
+} from '../controllers/departments.js';
 import { isAdmin } from '../middlewares/isAdmin.js';
 import { isLoggedIn } from '../middlewares/isLoggedIn.js';
 

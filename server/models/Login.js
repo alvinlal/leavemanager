@@ -12,6 +12,10 @@ const Login = db.define(
       type: DataTypes.ENUM('ADMIN', 'TEACHER', 'STAFF'),
       allowNull: false,
     },
+    haschangedpass: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0,
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,

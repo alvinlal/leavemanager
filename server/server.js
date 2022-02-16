@@ -4,6 +4,7 @@ import cors from 'cors';
 import db from './config/db.js';
 import authRoutes from './routes/auth.js';
 import departmentRoutes from './routes/department.js';
+import teacherRoutes from './routes/teachers.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -29,5 +30,6 @@ app.use(express.json());
 // routes
 app.use('/api', authRoutes);
 app.use('/api', departmentRoutes);
+app.use('/api', teacherRoutes);
 
 app.listen(PORT, console.log(`🚀 listening on port ${PORT}`));
