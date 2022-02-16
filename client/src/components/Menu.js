@@ -4,12 +4,22 @@ import { HomeIcon, UserGroupIcon, UserIcon, UserCircleIcon, DocumentTextIcon, Lo
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Menu = ({ menuVisible, toggleMenu }) => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const isMobile = useDeviceDetect();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const signOut = () => {};
+  const logOut = async () => {
+    try {
+      await fetch(`${process.env.REACT_APP_API}/logout`, { credentials: 'include' });
+      setUser({ isLoggedIn: false });
+      navigate('/');
+    } catch (error) {
+      // TODO:- make toast
+      console.log(error);
+      alert('Something went wrong, please try again later');
+    }
+  };
 
   const showComponent = (componentLink) => {
     if (isMobile) {
@@ -57,11 +67,11 @@ const Menu = ({ menuVisible, toggleMenu }) => {
             <p className='ml-4 text-lg'>Reports</p>
             {pathname === '/reports' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
           </div>
-          <div onClick={signOut} className='mt-14 flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
+          <div onClick={logOut} className='mt-14 flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
             <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
               <LogoutIcon className='h-7 w-7 text-white' />
             </div>
-            <p className='ml-4 text-lg'>Signout</p>
+            <p className='ml-4 text-lg'>Logout</p>
           </div>
         </>
       );

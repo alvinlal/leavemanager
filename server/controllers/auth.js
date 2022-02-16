@@ -89,3 +89,10 @@ export const me = (req, res) => {
   const { username, user_type, name } = req.user;
   return res.json({ username, user_type, name, isLoggedIn: true });
 };
+
+export const logout = (req, res) => {
+  res.clearCookie('token');
+  return res.json({
+    success: true,
+  });
+};
