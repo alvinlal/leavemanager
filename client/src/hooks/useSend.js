@@ -22,6 +22,7 @@ const useSend = () => {
     } catch (error) {
       setError(error);
       //show toast
+      alert('something went wrong, please try again later');
       return { data: null };
     } finally {
       setIsLoading(false);

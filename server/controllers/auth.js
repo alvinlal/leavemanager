@@ -1,20 +1,20 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import Login from '../models/Login.js';
+import Teacher from '../models/Teacher.js';
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const user = await Login.findOne({
-      attributes: ['username', 'password', 'user_type', 'haschangedpass'],
+      attributes: ['username', 'password', 'user_type'],
       where: { username: email },
     });
 
     if (!user) {
       return res.json({
-        error: true,
-        errmsg: 'Incorrect email or password',
+        error: 'Incorrect email or password',
       });
     }
 
@@ -22,29 +22,32 @@ export const login = async (req, res) => {
 
     if (!match) {
       return res.json({
-        error: true,
-        errmsg: 'Incorrect email or password',
+        error: 'Incorrect email or password',
       });
     }
 
-    const { username, user_type, haschangedpass } = user;
+    const { username, user_type } = user;
     var name;
+    var isHOD = false;
 
     switch (user_type) {
       case 'TEACHER': {
-        var { firstname, lastname } = await Teacher.findOne({
-          attributes: ['firstname', 'lastname'],
-          where: { email },
+        var { teacher_firstname, teacher_lastname, teacher_designation } = await Teacher.findOne({
+          attributes: ['teacher_firstname', 'teacher_lastname', 'teacher_designation'],
+          where: { username: email },
         });
-        name = firstname + ' ' + lastname;
+        if (teacher_designation === 'HOD') {
+          isHOD = true;
+        }
+        name = teacher_firstname + ' ' + teacher_lastname;
         break;
       }
       case 'STAFF': {
-        var { firstname, lastname } = await Staff.findOne({
-          attributes: ['firstname', 'lastname'],
-          where: { email },
+        var { staff_firstname, staff_lastname } = await Staff.findOne({
+          attributes: ['staff_firstname', 'staff_lastname'],
+          where: { username: email },
         });
-        name = firstname + ' ' + lastname;
+        name = staff_firstname + ' ' + staff_lastname;
         break;
       }
       case 'ADMIN': {
@@ -53,7 +56,7 @@ export const login = async (req, res) => {
       }
     }
 
-    const token = jwt.sign({ username, user_type, name }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ username, user_type, name, ...(isHOD && isHOD) }, process.env.JWT_SECRET, {
       expiresIn: '25 days',
     });
 
@@ -65,10 +68,10 @@ export const login = async (req, res) => {
 
     return res.json({
       error: false,
-      user: {
+      data: {
         username,
         user_type,
-        haschangedpass,
+        ...(isHOD && isHOD),
         name,
         isLoggedIn: true,
       },

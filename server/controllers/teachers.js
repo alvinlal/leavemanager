@@ -51,6 +51,7 @@ export const addTeacher = async (req, res) => {
           ],
         }
       );
+    // send as SES mail with the password here
     return res.json({
       error: false,
       data: {
