@@ -20,6 +20,7 @@ const Department = db.define(
   },
   {
     tableName: 'tbl_department',
+    timestamps: false,
   }
 );
 

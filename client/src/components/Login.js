@@ -18,7 +18,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     const { email, password } = data;
     try {
-      const { data, error } = await send(`${process.env.REACT_APP_API}/login`, { email, password });
+      const { data, error } = await send(`${process.env.REACT_APP_API}/login`, { body: JSON.stringify({ email, password }) });
       if (error) {
         setError(error + '!');
       } else if (data) {

@@ -5,18 +5,22 @@ const useSend = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const send = async (url, body, method = 'POST') => {
+  const send = async (url, options) => {
+    const defaultOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      credentials: 'include',
+    };
     try {
       setIsLoading(true);
       const res = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(body),
+        ...defaultOptions,
+        ...options,
       });
+
       setIsLoading(false);
       return await res.json();
     } catch (error) {

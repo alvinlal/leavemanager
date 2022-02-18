@@ -13,7 +13,7 @@ const DepartmentModal = ({ handleClose, departments, setDepartments, isEditing, 
   const { send, isLoading } = useSend();
 
   const addDepartment = async (departmentDetails) => {
-    const { data } = await send(`${process.env.REACT_APP_API}/departments`, departmentDetails);
+    const { data } = await send(`${process.env.REACT_APP_API}/departments`, { body: JSON.stringify(departmentDetails) });
     if (data) {
       setDepartments([...departments, data]);
     }
@@ -22,7 +22,7 @@ const DepartmentModal = ({ handleClose, departments, setDepartments, isEditing, 
   };
 
   const updateDepartment = async (departmentDetails) => {
-    const { data } = await send(`${process.env.REACT_APP_API}/departments`, departmentDetails, 'PUT');
+    const { data } = await send(`${process.env.REACT_APP_API}/departments`, { method: 'PUT', body: JSON.stringify(departmentDetails) });
     if (data) {
       setDepartments(departments.map((department) => (department.dept_id === data.dept_id ? { ...department, dept_name: data.dept_name } : department)));
     }

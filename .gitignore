@@ -5,7 +5,7 @@ node_modules
 .env
 /.pnp
 .pnp.js
-
+/server/public/images/uploads/slips/*
 # testing
 /coverage
 

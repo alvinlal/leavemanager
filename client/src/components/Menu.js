@@ -1,6 +1,18 @@
 import useUser from '../hooks/useUser';
 import useDeviceDetect from '../hooks/useDeviceDetect';
-import { HomeIcon, UserGroupIcon, UserIcon, UserCircleIcon, DocumentTextIcon, LogoutIcon, XIcon, ChevronRightIcon } from '@heroicons/react/outline';
+import {
+  HomeIcon,
+  UserGroupIcon,
+  UserIcon,
+  UserCircleIcon,
+  DocumentTextIcon,
+  LogoutIcon,
+  XIcon,
+  ChevronRightIcon,
+  IdentificationIcon,
+  ClockIcon,
+  AdjustmentsIcon,
+} from '@heroicons/react/outline';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Menu = ({ menuVisible, toggleMenu }) => {
@@ -53,6 +65,13 @@ const Menu = ({ menuVisible, toggleMenu }) => {
             <p className='ml-4 text-lg'>Teachers</p>
             {pathname === '/teachers' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
           </div>
+          <div onClick={() => showComponent('/categories')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
+            <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
+              <AdjustmentsIcon className='h-7 w-7 text-white' />
+            </div>
+            <p className='ml-4 text-lg'>Leave categories</p>
+            {pathname === '/categories' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
+          </div>
           <div onClick={() => showComponent('/staffs')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
             <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
               <UserCircleIcon className='h-7 w-7 text-white' />
@@ -77,6 +96,46 @@ const Menu = ({ menuVisible, toggleMenu }) => {
       );
     }
     if (user.user_type === 'TEACHER') {
+      return (
+        <>
+          <div onClick={() => showComponent('/')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
+            <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
+              <HomeIcon className='h-7 w-7 text-white' />
+            </div>
+            <p className='ml-4 text-lg'>DashBoard</p>
+            {pathname === '/' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
+          </div>
+          <div onClick={() => showComponent('/details')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
+            <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
+              <IdentificationIcon className='h-7 w-7 text-white' />
+            </div>
+            <p className='ml-4 text-lg'>Your Details</p>
+            {pathname === '/details' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
+          </div>
+          <div onClick={() => showComponent('/leaves')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
+            <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
+              <ClockIcon className='h-7 w-7 text-white' />
+            </div>
+            <p className='ml-4 text-lg'>Your Leaves</p>
+            {pathname === '/leaves' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
+          </div>
+          {user.isHOD && (
+            <div onClick={() => showComponent('/approvals')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
+              <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
+                <IdentificationIcon className='h-7 w-7 text-white' />
+              </div>
+              <p className='ml-4 text-lg'>Approvals</p>
+              {pathname === '/approvals' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
+            </div>
+          )}
+          <div onClick={logOut} className='mt-14 flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
+            <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
+              <LogoutIcon className='h-7 w-7 text-white' />
+            </div>
+            <p className='ml-4 text-lg'>Logout</p>
+          </div>
+        </>
+      );
     }
     if (user.user_type === 'STAFF') {
     }

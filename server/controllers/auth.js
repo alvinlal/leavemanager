@@ -32,10 +32,17 @@ export const login = async (req, res) => {
 
     switch (user_type) {
       case 'TEACHER': {
-        var { teacher_firstname, teacher_lastname, teacher_designation } = await Teacher.findOne({
-          attributes: ['teacher_firstname', 'teacher_lastname', 'teacher_designation'],
+        var { teacher_firstname, teacher_lastname, teacher_designation, teacher_status } = await Teacher.findOne({
+          attributes: ['teacher_firstname', 'teacher_lastname', 'teacher_designation', 'teacher_status'],
           where: { username: email },
         });
+
+        if (!teacher_status) {
+          return res.json({
+            error: 'Incorrect email or password',
+          });
+        }
+
         if (teacher_designation === 'HOD') {
           isHOD = true;
         }
@@ -43,10 +50,15 @@ export const login = async (req, res) => {
         break;
       }
       case 'STAFF': {
-        var { staff_firstname, staff_lastname } = await Staff.findOne({
-          attributes: ['staff_firstname', 'staff_lastname'],
+        var { staff_firstname, staff_lastname, staff_status } = await Staff.findOne({
+          attributes: ['staff_firstname', 'staff_lastname', 'staff_status'],
           where: { username: email },
         });
+        if (!staff_status) {
+          return res.json({
+            error: 'Incorrect email or password',
+          });
+        }
         name = staff_firstname + ' ' + staff_lastname;
         break;
       }
@@ -56,7 +68,7 @@ export const login = async (req, res) => {
       }
     }
 
-    const token = jwt.sign({ username, user_type, name, ...(isHOD && isHOD) }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ username, user_type, name, ...(isHOD && { isHOD }) }, process.env.JWT_SECRET, {
       expiresIn: '25 days',
     });
 
@@ -71,7 +83,7 @@ export const login = async (req, res) => {
       data: {
         username,
         user_type,
-        ...(isHOD && isHOD),
+        ...(isHOD && { isHOD }),
         name,
         isLoggedIn: true,
       },
@@ -86,8 +98,8 @@ export const me = (req, res) => {
   if (!req.user) {
     return res.json({ isLoggedIn: false });
   }
-  const { username, user_type, name } = req.user;
-  return res.json({ username, user_type, name, isLoggedIn: true });
+  const { username, user_type, name, isHOD } = req.user;
+  return res.json({ username, user_type, name, isLoggedIn: true, ...(isHOD && { isHOD }) });
 };
 
 export const logout = (req, res) => {

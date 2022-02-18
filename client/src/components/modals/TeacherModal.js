@@ -24,7 +24,9 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
   }, [data]);
 
   const addTeacher = async (teacherDetails) => {
-    const { data, error } = await send(`${process.env.REACT_APP_API}/teachers`, { ...teacherDetails, dept_name: getDepartmentName() });
+    const { data, error } = await send(`${process.env.REACT_APP_API}/teachers`, {
+      body: JSON.stringify({ ...teacherDetails, dept_name: getDepartmentName() }),
+    });
     if (error) {
       if (error.username) {
         setError('username', { type: 'focus', message: error.username }, { shouldFocus: true });
@@ -33,7 +35,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
       setTeachers([...teachers, data]);
       navigator.clipboard.writeText(data.password);
       // TODO:- make toast
-      alert('Password has been copied to clipboard')
+      alert('Password has been copied to clipboard');
       handleClose();
       window.scrollTo(0, document.body.scrollHeight);
     }
@@ -45,7 +47,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
   };
 
   const updateTeacher = async (teacherDetails) => {
-    const { data } = await send(`${process.env.REACT_APP_API}/teachers`, teacherDetails, 'PUT');
+    const { data } = await send(`${process.env.REACT_APP_API}/teachers`, { method: 'PUT', body: JSON.stringify(teacherDetails) });
     if (data) {
       setTeachers(
         teachers.map((teacher) =>
@@ -164,7 +166,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
         </div>
         <div className='relative h-20 w-auto'>
           <select
-            className={`h-10 w-[330px] rounded-[3px] border-2 border-secondary indent-3 text-sm font-bold outline-none ${
+            className={`h-10 w-[330px] rounded-[3px] border-2 indent-3 text-sm font-bold outline-none ${
               errors.teacher_designation ? 'border-red-600' : 'border-secondary focus:border-accent'
             }`}
             {...register('teacher_designation', { required: true })}
