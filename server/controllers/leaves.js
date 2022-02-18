@@ -35,8 +35,8 @@ const daysBetween = (date1, date2) => {
   // Calculate the difference in milliseconds
   const differenceMs = Math.abs(date1 - date2);
 
-  // Convert back to days and return
-  return Math.round(differenceMs / ONE_DAY);
+  // Convert back to days and return, one is added
+  return Math.round(differenceMs / ONE_DAY) + 1;
 };
 
 export const addLeave = async (req, res) => {
@@ -72,7 +72,7 @@ export const addLeave = async (req, res) => {
       // insert leave
       const filename = crypto.randomBytes(10).toString('hex');
       const extension = files.leave_slip_image.mimetype.split('/')[1];
-      const no_of_days = daysBetween(req.body.leave_startDate, req.body.leave_endDate) + 1;
+      const no_of_days = daysBetween(new Date(fields.leave_startDate), new Date(fields.leave_endDate));
       const {
         leave_id,
         leave_category_id,
