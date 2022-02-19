@@ -55,21 +55,22 @@ export const addLeave = async (req, res) => {
     }
 
     try {
-      if (req.body.hasLimit) {
+      if (fields.hasLimit == 'true') {
+        // because formdata converts booleans to strings, SMH 😞
         //TODO:- check academic year
         const total_no_of_days = await Leave.sum('no_of_days', {
-          where: { category_id: req.body.category_id, applicant_id: req.user.username },
+          where: { leave_category_id: fields.category_id, applicant_id: req.user.username },
         });
 
-        if (total_no_of_days > (req.user.user_type === 'TEACHER' ? max_days_teachers : max_days_staff)) {
+        if (total_no_of_days >= (req.user.user_type === 'TEACHER' ? fields.max_days_teachers : fields.max_days_staff)) {
           return res.json({
             error: {
-              category: `You have reached ${category_name} limit`,
+              category: `You have reached ${fields.category_name} limit`,
             },
           });
         }
       }
-      // insert leave
+
       const filename = crypto.randomBytes(10).toString('hex');
       const extension = files.leave_slip_image.mimetype.split('/')[1];
       const no_of_days = daysBetween(new Date(fields.leave_startDate), new Date(fields.leave_endDate));
@@ -91,9 +92,10 @@ export const addLeave = async (req, res) => {
         leave_application_date: new Date().toISOString().split('T')[0],
         no_of_days,
         leave_slip_image: filename + '.' + extension,
+        ...(req.user.isHOD && { leave_approved_by: req.user.username, leave_approved: true }),
       });
       const oldPath = files.leave_slip_image.filepath;
-      const newPath = path.join(global.__basedir, `/public/images/uploads/slips/${filename}.${extension}`);
+      const newPath = path.join(global.__basedir, `/public/uploads/slips/${filename}.${extension}`);
       var source = fs.createReadStream(oldPath);
       var dest = fs.createWriteStream(newPath, { flags: 'wx' });
       source.pipe(dest);

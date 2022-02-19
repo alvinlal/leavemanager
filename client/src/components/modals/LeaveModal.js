@@ -47,7 +47,7 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
     });
     if (error) {
       if (error.category) {
-        setError('category', { type: 'focus', message: error.category }, { shouldFocus: true });
+        setError('category_id', { type: 'focus', message: error.category }, { shouldFocus: true });
       }
       if (error.leave_slip_image) {
         setError('leave_slip_image', { message: error.leave_slip_image });
@@ -180,7 +180,7 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
             </option>
             {renderCategoryOptions()}
           </select>
-          {errors.category_id && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>Please select a category</p>}
+          {errors.category_id && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>{errors.category_id.message}</p>}
         </div>
         <div className='relative  h-20 w-auto'>
           <input

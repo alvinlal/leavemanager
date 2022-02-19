@@ -49,7 +49,7 @@ const Leave = db.define(
 
 Leave.Login = Leave.belongsTo(Login, { foreignKey: 'applicant_id' });
 Leave.Category = Leave.belongsTo(Category, { foreignKey: 'leave_category_id' });
-Leave.Teacher = Leave.belongsTo(Teacher, { foreignKey: 'leave_approved_by' });
+Leave.Teacher = Leave.belongsTo(Teacher, { foreignKey: 'leave_approved_by', targetKey: 'username' });
 
 try {
   await Leave.sync();

@@ -88,8 +88,8 @@ const Leaves = () => {
                     }}
                   />
                 )}
-                <a href={'/images/uploads/slips/' + leave_slip_image} target='_blank' rel='noreferrer'>
-                  <EyeIcon className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto' />
+                <a href={`${process.env.REACT_APP_STATIC}/uploads/slips/${leave_slip_image}`} target='_blank' rel='noreferrer'>
+                  <EyeIcon className='ml-3 h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto' />
                 </a>
               </div>
             </div>
