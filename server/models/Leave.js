@@ -24,9 +24,9 @@ const Leave = db.define(
       type: DataTypes.SMALLINT,
       required: true,
     },
-    leave_approved: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: 0,
+    leave_approval_status: {
+      type: DataTypes.ENUM('approved', 'pending', 'declined'),
+      defaultValue: 'pending',
     },
     leave_reason: {
       type: DataTypes.STRING,

@@ -14,7 +14,7 @@ export const getAllLeaves = async (req, res) => {
         'leave_application_date',
         'leave_startDate',
         'leave_endDate',
-        'leave_approved',
+        'leave_approval_status',
         'leave_slip_image',
         'leave_reason',
       ],
@@ -79,7 +79,7 @@ export const addLeave = async (req, res) => {
         leave_category_id,
         leave_startDate,
         leave_endDate,
-        leave_approved,
+        leave_approval_status,
         leave_slip_image,
         leave_application_date,
         leave_reason,
@@ -92,7 +92,8 @@ export const addLeave = async (req, res) => {
         leave_application_date: new Date().toISOString().split('T')[0],
         no_of_days,
         leave_slip_image: filename + '.' + extension,
-        ...(req.user.isHOD && { leave_approved_by: req.user.username, leave_approved: true }),
+        leave_approval_status: req.user.isHOD || req.user.user_type === 'STAFF' ? 'approved' : 'pending',
+        ...(req.user.isHOD && { leave_approved_by: req.user.username }),
       });
       const oldPath = files.leave_slip_image.filepath;
       const newPath = path.join(global.__basedir, `/public/uploads/slips/${filename}.${extension}`);
@@ -112,7 +113,7 @@ export const addLeave = async (req, res) => {
           },
           leave_startDate,
           leave_endDate,
-          leave_approved,
+          leave_approval_status,
           leave_slip_image,
           leave_application_date,
           leave_reason,

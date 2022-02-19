@@ -23,7 +23,7 @@ const Leaves = () => {
           leave_application_date,
           leave_startDate,
           leave_endDate,
-          leave_approved,
+          leave_approval_status,
           leave_slip_image,
           leave_reason,
         } = leave;
@@ -71,14 +71,14 @@ const Leaves = () => {
               data-title='Approval Status'
               className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
             >
-              {leave_approved ? 'Approved' : 'Pending'}
+              {leave_approval_status}
             </div>
             <div
               data-title='Actions'
               className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell  md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
             >
               <div className='flex items-center justify-center'>
-                {!leave_approved && (
+                {leave_approval_status === 'pending' && (
                   <PencilIcon
                     className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'
                     onClick={() => {
