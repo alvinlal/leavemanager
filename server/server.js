@@ -9,6 +9,7 @@ import departmentRoutes from './routes/departments.js';
 import teacherRoutes from './routes/teachers.js';
 import leaveRoutes from './routes/leaves.js';
 import categoryRoutes from './routes/categories.js';
+import approvalRoutes from './routes/approvals.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -41,5 +42,6 @@ app.use('/api', departmentRoutes);
 app.use('/api', teacherRoutes);
 app.use('/api', leaveRoutes);
 app.use('/api', categoryRoutes);
+app.use('/api', approvalRoutes);
 
 app.listen(PORT, console.log(`🚀 listening on port ${PORT}`));

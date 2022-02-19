@@ -86,7 +86,7 @@ const Menu = ({ menuVisible, toggleMenu }) => {
             <p className='ml-4 text-lg'>Reports</p>
             {pathname === '/reports' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
           </div>
-          <div onClick={logOut} className='mt-14 flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
+          <div onClick={logOut} className=' flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
             <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
               <LogoutIcon className='h-7 w-7 text-white' />
             </div>
@@ -149,7 +149,7 @@ const Menu = ({ menuVisible, toggleMenu }) => {
       <div onClick={() => toggleMenu(false)} className='ml-auto mt-4 mr-7 flex h-9 w-9 items-center justify-center rounded-[5px] bg-[#3E4173] hover:cursor-pointer md:hidden'>
         <XIcon className='h-7 w-7 text-white' />
       </div>
-      <div className='mt-[76px] flex h-auto w-full flex-col items-center justify-center'>{renderMenuOptions()}</div>
+      <div className='mt-[50px] flex h-auto w-full flex-col items-center justify-center'>{renderMenuOptions()}</div>
     </div>
   );
 };

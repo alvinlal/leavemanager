@@ -92,17 +92,17 @@ const Departments = () => {
         />
       )}
       <div className='flex items-center'>
-        <h1 className='text-2xl font-bold text-primary md:text-4xl'>Departments</h1>
+        <h1 className='md:textlgxl text-2xl font-bold text-primary'>Departments</h1>
         <div className='fixed bottom-6 right-6 z-20 ml-3 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-[#44B35C] hover:scale-110 md:static md:h-11  md:w-11'>
           <XIcon className='h-12 w-12 rotate-45 text-white md:h-9 md:w-9' onClick={toggleModal} />
         </div>
       </div>
       <div className='mt-8 mb-28 table w-full border-2 border-secondary md:mb-5 md:rounded-tr-xl md:border-t-0 md:border-l-0'>
         <div className='hidden h-24 w-full md:table-row'>
-          <div className='table-cell  rounded-tl-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-xl font-bold text-primary'>Sl.No</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-xl font-bold text-primary '>Name</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-xl font-bold text-primary'>Status</div>
-          <div className='table-cell  rounded-tr-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-xl font-bold text-primary'>Actions</div>
+          <div className='table-cell  rounded-tl-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Sl.No</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Name</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Status</div>
+          <div className='table-cell  rounded-tr-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Actions</div>
         </div>
         {renderDepartments()}
       </div>

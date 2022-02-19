@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './contexts/userContext';
 import RequireAuth from './helpers/RequireAuth';
 import AdminRoute from './helpers/AdminRoute';
+import HodRoute from './helpers/HodRoute';
 import TeacherOrStaffRoute from './helpers/TeacherOrStaffRoute';
 import Home from './components/Home';
 import Base from './components/Base';
@@ -11,6 +12,7 @@ import Teachers from './components/Teachers';
 import Staffs from './components/Staffs';
 import Reports from './components/Reports';
 import Leaves from './components/Leaves';
+import Approvals from './components/Approvals';
 
 const App = () => {
   return (
@@ -74,6 +76,16 @@ const App = () => {
                   <TeacherOrStaffRoute>
                     <Leaves />
                   </TeacherOrStaffRoute>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path='approvals'
+              element={
+                <RequireAuth>
+                  <HodRoute>
+                    <Approvals />
+                  </HodRoute>
                 </RequireAuth>
               }
             />

@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { PencilIcon, XIcon, ExclamationIcon, EyeIcon } from '@heroicons/react/outline';
+import { PencilIcon, ExclamationIcon, EyeIcon } from '@heroicons/react/outline';
 import useFetch from '../hooks/useFetch';
 import useModal from '../hooks/useModal';
-import LeaveModal from './modals/LeaveModal';
+import ApprovalModal from './modals/ApprovalModal';
 import PulseAnimation from './PulseAnimation';
 
-const Leaves = () => {
+const Approvals = () => {
   const [leaves, setLeaves] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [defaultValues, setDefaultValues] = useState(null);
-  const [data, error, isLoading] = useFetch(`${process.env.REACT_APP_API}/leaves`, {});
+  const [data, error, isLoading] = useFetch(`${process.env.REACT_APP_API}/approvals`, {});
+
   const [isModalVisible, setIsModalVisible, toggleModal] = useModal(false);
 
   const renderLeaves = () => {
@@ -17,16 +16,7 @@ const Leaves = () => {
       return <PulseAnimation noOfCells={8} />;
     } else if (leaves) {
       return leaves.map((leave, index) => {
-        const {
-          leave_id,
-          Category: { category_name, category_id },
-          leave_application_date,
-          leave_startDate,
-          leave_endDate,
-          leave_approval_status,
-          leave_slip_image,
-          leave_reason,
-        } = leave;
+        const { leave_id, category_name, leave_application_date, leave_startDate, leave_endDate, leave_approval_status, leave_slip_image, no_of_days, leave_reason } = leave;
         return (
           <div key={index} className='table-row h-24 w-full'>
             <div
@@ -78,19 +68,12 @@ const Leaves = () => {
               className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell  md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
             >
               <div className='flex items-center justify-center'>
-                {leave_approval_status === 'pending' && (
-                  <PencilIcon
-                    className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'
-                    onClick={() => {
-                      toggleModal();
-                      setIsEditing(true);
-                      setDefaultValues({ leave_id, category_name, category_id, leave_startDate, leave_endDate, leave_reason });
-                    }}
-                  />
-                )}
-                <a href={`${process.env.REACT_APP_STATIC}/uploads/slips/${leave_slip_image}`} target='_blank' rel='noreferrer'>
-                  <EyeIcon className='ml-3 h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto' />
-                </a>
+                <EyeIcon
+                  className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'
+                  onClick={() => {
+                    toggleModal();
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -102,27 +85,19 @@ const Leaves = () => {
   useEffect(() => {
     setLeaves(data);
   }, [data]);
-
   return (
     <div className='flex flex-col justify-center p-5 md:py-6 md:px-9'>
       {isModalVisible && (
-        <LeaveModal
+        <ApprovalModal
           handleClose={() => {
-            setIsEditing(false);
-            setDefaultValues(null);
             setIsModalVisible(false);
           }}
           leaves={leaves}
           setLeaves={setLeaves}
-          isEditing={isEditing}
-          defaultValues={defaultValues}
         />
       )}
       <div className='flex items-center'>
-        <h1 className='text-2xl font-bold text-primary md:text-3xl'>Leaves</h1>
-        <div className='fixed bottom-6 right-6 z-20 ml-3 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-[#44B35C] hover:scale-110 md:static md:h-11  md:w-11'>
-          <XIcon className='h-12 w-12 rotate-45 text-white md:h-9 md:w-9' onClick={toggleModal} />
-        </div>
+        <h1 className='text-2xl font-bold text-primary md:text-3xl'>Approvals</h1>
       </div>
       <div className='mt-8 mb-28 table w-full border-2 border-secondary md:mb-5 md:rounded-tr-xl md:border-t-0 md:border-l-0'>
         <div className='hidden h-24 w-full md:table-row'>
@@ -131,6 +106,7 @@ const Leaves = () => {
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Apply Date</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Start Date</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>End Date</div>
+
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Reason</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '> Approval Status</div>
           <div className='table-cell  rounded-tr-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Actions</div>
@@ -147,4 +123,4 @@ const Leaves = () => {
   );
 };
 
-export default Leaves;
+export default Approvals;

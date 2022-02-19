@@ -4,7 +4,6 @@ import formidable from 'formidable';
 import crypto from 'crypto';
 import path from 'path';
 import fs from 'fs';
-import Teacher from '../models/Teacher.js';
 
 export const getAllLeaves = async (req, res) => {
   try {
@@ -18,7 +17,7 @@ export const getAllLeaves = async (req, res) => {
         'leave_slip_image',
         'leave_reason',
       ],
-      where: { applicant_id: req.user.username },
+      where: { applicant_username: req.user.username },
       include: [{ model: Category, attributes: ['category_name', 'category_id'] }],
     });
     return res.json(leaves);
@@ -59,7 +58,7 @@ export const addLeave = async (req, res) => {
         // because formdata converts booleans to strings, SMH 😞
         //TODO:- check academic year
         const total_no_of_days = await Leave.sum('no_of_days', {
-          where: { leave_category_id: fields.category_id, applicant_id: req.user.username },
+          where: { leave_category_id: fields.category_id, applicant_username: req.user.username },
         });
 
         if (total_no_of_days >= (req.user.user_type === 'TEACHER' ? fields.max_days_teachers : fields.max_days_staff)) {
@@ -84,7 +83,7 @@ export const addLeave = async (req, res) => {
         leave_application_date,
         leave_reason,
       } = await Leave.create({
-        applicant_id: req.user.username,
+        applicant_username: req.user.username,
         leave_category_id: fields.category_id,
         leave_startDate: fields.leave_startDate,
         leave_endDate: fields.leave_endDate,
