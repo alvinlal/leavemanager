@@ -17,6 +17,7 @@ export const getAllLeaves = async (req, res) => {
         'leave_slip_image',
         'leave_reason',
       ],
+      // TODO:- ORDER BY leave_application_date and pending
       where: { applicant_username: req.user.username },
       include: [{ model: Category, attributes: ['category_name', 'category_id'] }],
     });

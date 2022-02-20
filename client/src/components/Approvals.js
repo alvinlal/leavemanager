@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PencilIcon, ExclamationIcon, EyeIcon } from '@heroicons/react/outline';
+import { ExclamationIcon, EyeIcon } from '@heroicons/react/outline';
 import useFetch from '../hooks/useFetch';
 import useModal from '../hooks/useModal';
 import ApprovalModal from './modals/ApprovalModal';
@@ -7,16 +7,17 @@ import PulseAnimation from './PulseAnimation';
 
 const Approvals = () => {
   const [leaves, setLeaves] = useState(null);
+  const [currentLeave, setCurrentLeave] = useState(null);
   const [data, error, isLoading] = useFetch(`${process.env.REACT_APP_API}/approvals`, {});
 
   const [isModalVisible, setIsModalVisible, toggleModal] = useModal(false);
 
   const renderLeaves = () => {
     if (isLoading) {
-      return <PulseAnimation noOfCells={8} />;
+      return <PulseAnimation noOfCells={9} />;
     } else if (leaves) {
       return leaves.map((leave, index) => {
-        const { leave_id, category_name, leave_application_date, leave_startDate, leave_endDate, leave_approval_status, leave_slip_image, no_of_days, leave_reason } = leave;
+        const { teacher_firstname, teacher_lastname, category_name, leave_application_date, leave_startDate, leave_endDate, leave_approval_status } = leave;
         return (
           <div key={index} className='table-row h-24 w-full'>
             <div
@@ -26,6 +27,12 @@ const Approvals = () => {
               } border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:before:content-none`}
             >
               {index + 1}
+            </div>
+            <div
+              data-title='Applicant'
+              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+            >
+              {teacher_firstname + ' ' + teacher_lastname}
             </div>
             <div
               data-title='Category'
@@ -52,12 +59,6 @@ const Approvals = () => {
               {leave_endDate}
             </div>
             <div
-              data-title='Reason'
-              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
-            >
-              {leave_reason}
-            </div>
-            <div
               data-title='Approval Status'
               className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
             >
@@ -71,6 +72,7 @@ const Approvals = () => {
                 <EyeIcon
                   className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'
                   onClick={() => {
+                    setCurrentLeave(leave);
                     toggleModal();
                   }}
                 />
@@ -94,6 +96,7 @@ const Approvals = () => {
           }}
           leaves={leaves}
           setLeaves={setLeaves}
+          leave={currentLeave}
         />
       )}
       <div className='flex items-center'>
@@ -101,14 +104,13 @@ const Approvals = () => {
       </div>
       <div className='mt-8 mb-28 table w-full border-2 border-secondary md:mb-5 md:rounded-tr-xl md:border-t-0 md:border-l-0'>
         <div className='hidden h-24 w-full md:table-row'>
-          <div className='table-cell  rounded-tl-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Sl.No</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Category</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Apply Date</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Start Date</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>End Date</div>
-
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Reason</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '> Approval Status</div>
+          <div className='table-cell  rounded-tl-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-base font-bold text-primary'>Sl.No</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-base font-bold text-primary'>Applicant </div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-base font-bold text-primary '>Category</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-base font-bold text-primary '>Apply Date</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-base font-bold text-primary '>Start Date</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-base font-bold text-primary '>End Date</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-base font-bold text-primary '> Approval Status</div>
           <div className='table-cell  rounded-tr-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Actions</div>
         </div>
         {renderLeaves()}
