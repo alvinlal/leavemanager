@@ -92,7 +92,7 @@ export const updateTeacher = async (req, res) => {
       },
       { where: { teacher_id: req.body.teacher_id } }
     );
-    console.log(req.body);
+
     const { teacher_firstname, teacher_lastname, dept_id, teacher_designation, teacher_id } = await Teacher.findByPk(
       req.body.teacher_id,
       {

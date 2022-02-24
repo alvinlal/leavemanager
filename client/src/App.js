@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './contexts/userContext';
+import Categories from './components/Categories';
 import RequireAuth from './helpers/RequireAuth';
 import AdminRoute from './helpers/AdminRoute';
 import HodRoute from './helpers/HodRoute';
@@ -45,6 +46,16 @@ const App = () => {
                 <RequireAuth>
                   <AdminRoute>
                     <Teachers />
+                  </AdminRoute>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path='categories'
+              element={
+                <RequireAuth>
+                  <AdminRoute>
+                    <Categories />
                   </AdminRoute>
                 </RequireAuth>
               }

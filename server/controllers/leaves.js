@@ -1,3 +1,4 @@
+import sequelize from '../config/db.js';
 import Leave from '../models/Leave.js';
 import Category from '../models/Category.js';
 import formidable from 'formidable';
@@ -20,6 +21,7 @@ export const getAllLeaves = async (req, res) => {
       // TODO:- ORDER BY leave_application_date and pending
       where: { applicant_username: req.user.username },
       include: [{ model: Category, attributes: ['category_name', 'category_id'] }],
+      order: [['leave_application_date', 'DESC']],
     });
     return res.json(leaves);
   } catch (error) {

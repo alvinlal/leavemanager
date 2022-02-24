@@ -69,7 +69,7 @@ const Menu = ({ menuVisible, toggleMenu }) => {
             <div className='flex h-[46px] w-[42px] items-center justify-center rounded-[5px] bg-[#3E4173]'>
               <AdjustmentsIcon className='h-7 w-7 text-white' />
             </div>
-            <p className='ml-4 text-lg'>Leave categories</p>
+            <p className='ml-4 text-lg'>Categories</p>
             {pathname === '/categories' && <ChevronRightIcon className='ml-auto hidden h-9 w-9 md:block' />}
           </div>
           <div onClick={() => showComponent('/staffs')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>

@@ -19,7 +19,7 @@ const Category = db.define(
       type: DataTypes.BOOLEAN,
       defaultValue: 0,
     },
-    max_days_teachers: {
+    max_days_teacher: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       required: true,
