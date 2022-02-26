@@ -94,8 +94,7 @@ const Menu = ({ menuVisible, toggleMenu }) => {
           </div>
         </>
       );
-    }
-    if (user.user_type === 'TEACHER') {
+    } else {
       return (
         <>
           <div onClick={() => showComponent('/')} className='flex h-[70px] w-[270px] cursor-pointer items-center px-6 py-3 text-white hover:bg-[#6C6E94]'>
@@ -136,8 +135,6 @@ const Menu = ({ menuVisible, toggleMenu }) => {
           </div>
         </>
       );
-    }
-    if (user.user_type === 'STAFF') {
     }
   };
 

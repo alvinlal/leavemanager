@@ -1,13 +1,9 @@
 import { XIcon } from '@heroicons/react/outline';
-import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import useFetch from '../../hooks/useFetch';
 import useSend from '../../hooks/useSend';
 import Spinner from '../Spinner';
 
-const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultValues }) => {
-  const [departments, setDepartments] = useState(null);
-  const [data, error, isDepartmentsLoading] = useFetch(`${process.env.REACT_APP_API}/departments`, {});
+const StaffModal = ({ handleClose, staffs, setStaffs, isEditing, defaultValues }) => {
   const { send, isLoading } = useSend();
   const {
     register,
@@ -16,23 +12,19 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
     formState: { errors, isDirty, isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: isEditing ? defaultValues : { teacher_firstname: '', teacher_lastname: '', dept_id: '', teacher_designation: '', username: '' },
+    defaultValues: isEditing ? defaultValues : { staff_firstname: '', staff_lastname: '', staff_designation: '', username: '' },
   });
 
-  useEffect(() => {
-    setDepartments(data);
-  }, [data]);
-
-  const addTeacher = async (teacherDetails) => {
-    const { data, error } = await send(`${process.env.REACT_APP_API}/teachers`, {
-      body: JSON.stringify({ ...teacherDetails, dept_name: getDepartmentName() }),
+  const addStaff = async (staffDetails) => {
+    const { data, error } = await send(`${process.env.REACT_APP_API}/staffs`, {
+      body: JSON.stringify(staffDetails),
     });
     if (error) {
       if (error.username) {
         setError('username', { type: 'focus', message: error.username }, { shouldFocus: true });
       }
     } else if (data) {
-      setTeachers([...teachers, data]);
+      setStaffs([...staffs, data]);
       navigator.clipboard.writeText(data.password);
       // TODO:- make toast
       alert('Password has been copied to clipboard');
@@ -41,61 +33,27 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
     }
   };
 
-  const getDepartmentName = () => {
-    const departmentSelect = document.getElementById('department');
-    return departmentSelect.options[departmentSelect.selectedIndex].text;
-  };
-
-  const updateTeacher = async (teacherDetails) => {
-    const { data } = await send(`${process.env.REACT_APP_API}/teachers`, { method: 'PUT', body: JSON.stringify(teacherDetails) });
+  const updateStaff = async (staffDetails) => {
+    const { data } = await send(`${process.env.REACT_APP_API}/staffs`, { method: 'PUT', body: JSON.stringify(staffDetails) });
     if (data) {
-      setTeachers(
-        teachers.map((teacher) =>
-          teacher.teacher_id === data.teacher_id
+      setStaffs(
+        staffs.map((staff) =>
+          staff.staff_id === data.staff_id
             ? {
-                ...teacher,
-                teacher_firstname: data.teacher_firstname,
-                teacher_lastname: data.teacher_lastname,
-                Department: {
-                  dept_name: getDepartmentName(),
-                },
-                teacher_designation: data.teacher_designation,
-                dept_id: data.dept_id,
+                ...staff,
+                staff_firstname: data.staff_firstname,
+                staff_lastname: data.staff_lastname,
+                staff_designation: data.staff_designation,
               }
-            : teacher
+            : staff
         )
       );
     }
     handleClose();
   };
 
-  const onSubmit = (teacherDetails) => {
-    isEditing ? updateTeacher({ ...teacherDetails, teacher_id: defaultValues.teacher_id }) : addTeacher(teacherDetails);
-  };
-
-  const renderDepartmentOptions = () => {
-    if (isDepartmentsLoading) {
-      return <option>Loading...</option>;
-    }
-    if (error) {
-      return (
-        <option className='text-red-900' disabled>
-          Something went wrong, please try again later
-        </option>
-      );
-    }
-    if (departments) {
-      return (
-        departments
-          // eslint-disable-next-line
-          .filter((department) => department.dept_status && (isEditing ? department.dept_id != defaultValues.dept_id : true))
-          .map((department, index) => (
-            <option key={index} value={department.dept_id}>
-              {department.dept_name}
-            </option>
-          ))
-      );
-    }
+  const onSubmit = (staffDetails) => {
+    isEditing ? updateStaff({ ...staffDetails, staff_id: defaultValues.staff_id }) : addStaff(staffDetails);
   };
 
   return (
@@ -106,7 +64,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
         onClick={(e) => e.stopPropagation()}
       >
         <div className='mb-6 flex w-full items-center justify-between'>
-          <h1 className='text-lg font-bold text-primary'>{isEditing ? 'Edit Teacher' : 'New Teacher'}</h1>
+          <h1 className='text-lg font-bold text-primary'>{isEditing ? 'Edit Staff' : 'New Staff'}</h1>
           <button type='button' onClick={handleClose} disabled={isLoading} className='cursor-pointer hover:bg-secondary disabled:cursor-not-allowed'>
             <XIcon className={`h-8 w-8 ${isLoading ? 'text-secondary' : ''} `} />
           </button>
@@ -132,7 +90,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
           <input
             type='text'
             className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.teacher_firstname ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
-            {...register('teacher_firstname', { required: true })}
+            {...register('staff_firstname', { required: true })}
           />
           <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>Firstname</span>
           {errors.teacher_firstname && <p className='mt-2 ml-2 text-sm font-medium text-red-600 '>Firstname is required!</p>}
@@ -141,39 +99,25 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
           <input
             type='text'
             className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.teacher_lastname ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
-            {...register('teacher_lastname', { required: true })}
+            {...register('staff_lastname', { required: true })}
           />
           <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>Lastname</span>
           {errors.teacher_lastname && <p className='mt-2 ml-2 text-sm font-medium text-red-600 '>Lastname is required!</p>}
         </div>
-        <div className='relative  h-20 w-auto'>
-          <select
-            id='department'
-            className={`h-10 w-[330px] rounded-[3px] border-2 border-secondary indent-3 text-sm font-bold outline-none ${
-              errors.dept_id ? 'border-red-600' : 'border-secondary focus:border-accent'
-            }`}
-            {...register('dept_id', { required: true })}
-          >
-            <option hidden value=''>
-              {isEditing ? defaultValues.dept_name : '-- select a department --'}
-            </option>
-            {renderDepartmentOptions()}
-          </select>
-          {errors.dept_id && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>Please select a department</p>}
-        </div>
         <div className='relative h-20 w-auto'>
           <select
             className={`h-10 w-[330px] rounded-[3px] border-2 indent-3 text-sm font-bold outline-none ${
-              errors.teacher_designation ? 'border-red-600' : 'border-secondary focus:border-accent'
+              errors.staff_designation ? 'border-red-600' : 'border-secondary focus:border-accent'
             }`}
-            {...register('teacher_designation', { required: true })}
+            {...register('staff_designation', { required: true })}
           >
             <option hidden value=''>
               -- select a designation --
             </option>
-            <option>Prof</option>
-            <option>Asst.Prof</option>
-            <option>HOD</option>
+            <option>Accountant</option>
+            <option>Administrator</option>
+            <option>Clerk</option>
+            <option>Librarian</option>
           </select>
           {errors.teacher_designation && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>Please select a designation</p>}
         </div>
@@ -200,4 +144,4 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
   );
 };
 
-export default TeacherModal;
+export default StaffModal;

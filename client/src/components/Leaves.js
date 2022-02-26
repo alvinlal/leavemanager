@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PencilIcon, XIcon, ExclamationIcon, EyeIcon } from '@heroicons/react/outline';
+import useUser from '../hooks/useUser';
 import useFetch from '../hooks/useFetch';
 import useModal from '../hooks/useModal';
 import LeaveModal from './modals/LeaveModal';
@@ -11,10 +12,11 @@ const Leaves = () => {
   const [defaultValues, setDefaultValues] = useState(null);
   const [data, error, isLoading] = useFetch(`${process.env.REACT_APP_API}/leaves`, {});
   const [isModalVisible, setIsModalVisible, toggleModal] = useModal(false);
+  const { user } = useUser();
 
   const renderLeaves = () => {
     if (isLoading) {
-      return <PulseAnimation noOfCells={8} />;
+      return <PulseAnimation noOfCells={user.user_type === 'STAFF' ? 7 : 8} />;
     } else if (leaves) {
       return leaves.map((leave, index) => {
         const {
@@ -67,18 +69,20 @@ const Leaves = () => {
             >
               {leave_reason}
             </div>
-            <div
-              data-title='Approval Status'
-              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
-            >
-              {leave_approval_status}
-            </div>
+            {user.user_type !== 'STAFF' && (
+              <div
+                data-title='Approval Status'
+                className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+              >
+                {leave_approval_status}
+              </div>
+            )}
             <div
               data-title='Actions'
               className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell  md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
             >
               <div className='flex items-center justify-center'>
-                {leave_approval_status === 'pending' && (
+                {user.user_type === 'STAFF' ? (
                   <PencilIcon
                     className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'
                     onClick={() => {
@@ -87,6 +91,17 @@ const Leaves = () => {
                       setDefaultValues({ leave_id, category_name, category_id, leave_startDate, leave_endDate, leave_reason });
                     }}
                   />
+                ) : (
+                  leave_approval_status === 'pending' && (
+                    <PencilIcon
+                      className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'
+                      onClick={() => {
+                        toggleModal();
+                        setIsEditing(true);
+                        setDefaultValues({ leave_id, category_name, category_id, leave_startDate, leave_endDate, leave_reason });
+                      }}
+                    />
+                  )
                 )}
                 <a href={`${process.env.REACT_APP_STATIC}/uploads/slips/${leave_slip_image}`} target='_blank' rel='noreferrer'>
                   <EyeIcon className='ml-3 h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto' />
@@ -132,7 +147,9 @@ const Leaves = () => {
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Start Date</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>End Date</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Reason</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '> Approval Status</div>
+          {user.user_type !== 'STAFF' && (
+            <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '> Approval Status</div>
+          )}
           <div className='table-cell  rounded-tr-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Actions</div>
         </div>
         {renderLeaves()}

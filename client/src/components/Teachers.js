@@ -29,7 +29,7 @@ const Teachers = () => {
     if (isLoading) {
       return <PulseAnimation noOfCells={7} />;
     } else if (teachers) {
-      return teachers.map((teachers, index) => {
+      return teachers.map((teacher, index) => {
         const {
           teacher_id,
           username,
@@ -39,7 +39,7 @@ const Teachers = () => {
           teacher_designation,
           teacher_status,
           Department: { dept_name },
-        } = teachers;
+        } = teacher;
         return (
           <div key={index} className='table-row h-24 w-full '>
             <div

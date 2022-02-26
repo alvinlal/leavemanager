@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import Login from '../models/Login.js';
+import Staff from '../models/Staff.js';
 import Teacher from '../models/Teacher.js';
 
 export const login = async (req, res) => {

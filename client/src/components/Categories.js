@@ -104,7 +104,7 @@ const Categories = () => {
         />
       )}
       <div className='flex items-center'>
-        <h1 className='md:textlgxl text-2xl font-bold text-primary'>Categories</h1>
+        <h1 className='text-2xl font-bold text-primary md:text-3xl'>Categories</h1>
         <div className='fixed bottom-6 right-6 z-20 ml-3 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-[#44B35C] hover:scale-110 md:static md:h-11  md:w-11'>
           <XIcon className='h-12 w-12 rotate-45 text-white md:h-9 md:w-9' onClick={toggleModal} />
         </div>

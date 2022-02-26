@@ -4,7 +4,7 @@ import useUser from '../hooks/useUser';
 const TeacherOrStaffRoute = ({ children }) => {
   const { user } = useUser();
 
-  if (user.user_type !== 'TEACHER') {
+  if (user.user_type !== 'TEACHER' && user.user_type !== 'STAFF') {
     return <Navigate to='/' replace />;
   }
 
