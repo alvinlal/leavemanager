@@ -11,7 +11,7 @@ export const getAllApprovals = async (req, res) => {
     });
 
     const leaves = await sequelize.query(
-      `SELECT leave_id,leave_application_date,leave_startDate,teacher_firstname,teacher_lastname,leave_endDate,no_of_days,leave_approval_status,leave_slip_image,leave_reason,category_name FROM tbl_leave JOIN tbl_category ON tbl_leave.leave_category_id=tbl_category.category_id LEFT JOIN tbl_teacher ON tbl_leave.applicant_username=tbl_teacher.username WHERE dept_id=${dept_id} AND tbl_leave.applicant_username!='${req.user.username}' ORDER BY CASE leave_application_date WHEN 'pending' THEN 1 WHEN 'approved' THEN 2 WHEN 'declined' THEN 3 ELSE 4 END, leave_application_date DESC`,
+      `SELECT leave_id,leave_application_date,leave_startDate,teacher_firstname,teacher_lastname,leave_endDate,no_of_days,leave_approval_status,leave_slip_image,leave_reason,category_name FROM tbl_leave JOIN tbl_category ON tbl_leave.category_id=tbl_category.category_id LEFT JOIN tbl_teacher ON tbl_leave.applicant_username=tbl_teacher.username WHERE dept_id=${dept_id} AND tbl_leave.applicant_username!='${req.user.username}' ORDER BY CASE leave_application_date WHEN 'pending' THEN 1 WHEN 'approved' THEN 2 WHEN 'declined' THEN 3 ELSE 4 END, leave_application_date DESC`,
       { type: QueryTypes.SELECT }
     );
 

@@ -48,7 +48,7 @@ const Leave = db.define(
 );
 
 Leave.Login = Leave.belongsTo(Login, { foreignKey: 'applicant_username' });
-Leave.Category = Leave.belongsTo(Category, { foreignKey: 'leave_category_id' });
+Leave.Category = Leave.belongsTo(Category, { foreignKey: 'category_id' });
 Leave.Teacher = Leave.belongsTo(Teacher, { foreignKey: 'leave_approved_by', targetKey: 'username' });
 
 try {

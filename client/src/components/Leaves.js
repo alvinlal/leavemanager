@@ -21,7 +21,8 @@ const Leaves = () => {
       return leaves.map((leave, index) => {
         const {
           leave_id,
-          Category: { category_name, category_id },
+          Category: { category_name },
+          category_id,
           leave_application_date,
           leave_startDate,
           leave_endDate,
@@ -88,7 +89,7 @@ const Leaves = () => {
                     onClick={() => {
                       toggleModal();
                       setIsEditing(true);
-                      setDefaultValues({ leave_id, category_name, category_id, leave_startDate, leave_endDate, leave_reason });
+                      setDefaultValues({ leave_id, category_name, category_id, leave_startDate, leave_endDate, leave_reason, current_leave_slip_image: leave_slip_image });
                     }}
                   />
                 ) : (

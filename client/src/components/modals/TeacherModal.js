@@ -18,7 +18,6 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
     mode: 'onChange',
     defaultValues: isEditing ? defaultValues : { teacher_firstname: '', teacher_lastname: '', dept_id: '', teacher_designation: '', username: '' },
   });
-
   useEffect(() => {
     setDepartments(data);
   }, [data]);
@@ -88,7 +87,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
       return (
         departments
           // eslint-disable-next-line
-          .filter((department) => department.dept_status && (isEditing ? department.dept_id != defaultValues.dept_id : true))
+          .filter((department) => department.dept_status)
           .map((department, index) => (
             <option key={index} value={department.dept_id}>
               {department.dept_name}
@@ -152,11 +151,17 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
             className={`h-10 w-[330px] rounded-[3px] border-2 border-secondary indent-3 text-sm font-bold outline-none ${
               errors.dept_id ? 'border-red-600' : 'border-secondary focus:border-accent'
             }`}
-            {...register('dept_id', { required: true })}
+            {...register('dept_id', { required: true, valueAsNumber: true })}
           >
-            <option hidden value=''>
-              {isEditing ? defaultValues.dept_name : '-- select a department --'}
-            </option>
+            {!isEditing ? (
+              <option hidden value=''>
+                -- select a department --
+              </option>
+            ) : (
+              <option hidden value={defaultValues.dept_id}>
+                {defaultValues.dept_name}
+              </option>
+            )}
             {renderDepartmentOptions()}
           </select>
           {errors.dept_id && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>Please select a department</p>}
