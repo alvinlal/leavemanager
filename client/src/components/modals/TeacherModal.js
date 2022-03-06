@@ -84,16 +84,13 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
       );
     }
     if (departments) {
-      return (
-        departments
-          // eslint-disable-next-line
-          .filter((department) => department.dept_status)
-          .map((department, index) => (
-            <option key={index} value={department.dept_id}>
-              {department.dept_name}
-            </option>
-          ))
-      );
+      return departments
+        .filter((department) => department.dept_status)
+        .map((department, index) => (
+          <option key={index} value={department.dept_id}>
+            {department.dept_name}
+          </option>
+        ));
     }
   };
 

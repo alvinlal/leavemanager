@@ -1,5 +1,5 @@
-import Sequelize from "sequelize";
-import dotenv from "dotenv";
+import Sequelize from 'sequelize';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -12,6 +12,9 @@ const dbdialect = process.env.DB_DIALECT;
 const sequelize = new Sequelize(dbname, dbuser, dbpass, {
   host: dbhost,
   dialect: dbdialect,
+  dialectOptions: {
+    multipleStatements: true,
+  },
   define: {
     freezeTableName: true,
   },

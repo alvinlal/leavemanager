@@ -1,7 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 createadmin.js
-createteachers.js
+createteacher.js
+createstaff.js
 /server/public/uploads/slips/*
 
 # dependencies

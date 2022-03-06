@@ -11,6 +11,7 @@ import staffRoutes from './routes/staffs.js';
 import leaveRoutes from './routes/leaves.js';
 import categoryRoutes from './routes/categories.js';
 import approvalRoutes from './routes/approvals.js';
+import reportRoutes from './routes/reports.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -45,5 +46,6 @@ app.use('/api', staffRoutes);
 app.use('/api', leaveRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', approvalRoutes);
+app.use('/api', reportRoutes);
 
 app.listen(PORT, console.log(`🚀 listening on port ${PORT}`));
