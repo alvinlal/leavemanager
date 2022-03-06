@@ -31,7 +31,7 @@ const Categories = () => {
 
   const renderCategories = () => {
     if (isLoading) {
-      return <PulseAnimation noOfCells={5} />;
+      return <PulseAnimation noOfCells={6} />;
     } else if (categories) {
       return categories.map((category, index) => {
         const { category_id, category_name, hasLimit, max_days_teacher, max_days_staff, category_status } = category;
