@@ -1,7 +1,6 @@
 import { QueryTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 import Leave from '../models/Leave.js';
-import Category from '../models/Category.js';
 
 export const getReport = async (req, res) => {
   try {
