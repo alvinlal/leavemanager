@@ -196,7 +196,6 @@ const Reports = () => {
     }
     var csv = 'Sl.No,User Type,Name,Department,Total Days,Designation\n';
     dataForExport.forEach((data, index) => {
-      //eslint-disable-next-line
       csv += `${index + 1},${data.user_type},${data.applicant_name},${data.dept_name ? data.dept_name : 'Not applicable'},${data.total_days},${data.applicant_designation}\n`;
     });
     var file = new Blob([csv], { type: 'text/csv' });
