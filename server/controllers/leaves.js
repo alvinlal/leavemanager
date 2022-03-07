@@ -1,10 +1,12 @@
-import { Op } from 'sequelize';
+import { Op, QueryTypes } from 'sequelize';
 import Leave from '../models/Leave.js';
 import Category from '../models/Category.js';
 import formidable from 'formidable';
 import crypto from 'crypto';
 import path from 'path';
 import fs from 'fs';
+import sequelize from '../config/db.js';
+import dayjs from 'dayjs';
 
 export const getAllLeaves = async (req, res) => {
   try {
@@ -59,19 +61,13 @@ export const addLeave = async (req, res) => {
 
     try {
       //checks if leave applications already exists in given date range
-      const hasLeaves = await Leave.findOne({
-        attributes: ['leave_id'],
-        where: {
-          applicant_username: req.user.username,
-          [Op.or]: {
-            leave_startDate: {
-              [Op.between]: [new Date(fields.leave_startDate), new Date(fields.leave_endDate)],
-            },
-            leave_endDate: {
-              [Op.between]: [new Date(fields.leave_startDate), new Date(fields.leave_endDate)],
-            },
-          },
-        },
+      const query =
+        fields.leave_startDate == fields.leave_endDate
+          ? `SELECT leave_id,leave_startDate,leave_endDate FROM tbl_leave WHERE applicant_username=$username AND DATE($startdate) BETWEEN leave_startDate AND leave_endDate;`
+          : `SELECT leave_id FROM tbl_leave WHERE applicant_username=$username AND (leave_startDate BETWEEN $startdate AND $enddate OR leave_endDate BETWEEN $startdate AND $enddate)`;
+      const hasLeaves = sequelize.query(query, {
+        bind: { startdate: fields.leave_startDate, enddate: fields.leave_endDate, username: req.user.username },
+        type: QueryTypes.SELECT,
       });
       if (hasLeaves) {
         return res.json({
@@ -315,4 +311,36 @@ export const updateLeave = async (req, res) => {
       return res.status(500).send('internal server error');
     }
   });
+};
+
+export const getLeaveDates = async (req, res) => {
+  try {
+    if (req.query.year) {
+      const leaves = await Leave.findAll({
+        attributes: ['leave_startDate', 'leave_endDate', 'no_of_days', 'leave_approval_status'],
+        where: {
+          [Op.and]: [
+            { applicant_username: req.user.username },
+            sequelize.where(sequelize.fn('YEAR', sequelize.col('leave_application_date')), req.query.year),
+          ],
+        },
+      });
+      var dates = [];
+      leaves.forEach((leave) => {
+        dates.push(leave.leave_startDate);
+        var currentDate = leave.leave_startDate;
+        for (let i = 1; i < leave.no_of_days; i++) {
+          var newDate = dayjs(currentDate).add(1, 'day');
+          dates.push(newDate.format('YYYY-MM-DD'));
+          currentDate = newDate;
+        }
+      });
+      return res.json(dates);
+    } else {
+      return res.status(400).send('bad request');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('internal server error');
+  }
 };
