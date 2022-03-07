@@ -57,9 +57,8 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
         setError('leave_slip_image', { message: error.leave_slip_image });
       }
     } else if (data) {
-      setLeaves([...leaves, data]);
+      setLeaves([data, ...leaves]);
       handleClose();
-      window.scrollTo(0, document.body.scrollHeight);
     }
   };
 
