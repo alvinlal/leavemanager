@@ -5,6 +5,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import db from './config/db.js';
 import authRoutes from './routes/auth.js';
+import dashboardRoutes from './routes/dashboard.js';
 import departmentRoutes from './routes/departments.js';
 import teacherRoutes from './routes/teachers.js';
 import staffRoutes from './routes/staffs.js';
@@ -40,6 +41,7 @@ app.use(express.json());
 
 // routes
 app.use('/api', authRoutes);
+app.use('/api', dashboardRoutes);
 app.use('/api', departmentRoutes);
 app.use('/api', teacherRoutes);
 app.use('/api', staffRoutes);
