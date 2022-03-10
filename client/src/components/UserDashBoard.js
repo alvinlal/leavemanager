@@ -43,7 +43,6 @@ const UserDashBoard = () => {
 
   const renderRecentLeaves = () => {
     if (isLoading) {
-      // add animated div with correct height
       return (
         <>
           <div className='mb-2 h-[150px] w-full animate-pulse rounded-md bg-slate-300'></div>

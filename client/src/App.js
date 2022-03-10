@@ -14,6 +14,8 @@ import Staffs from './components/Staffs';
 import Reports from './components/Reports';
 import Leaves from './components/Leaves';
 import Approvals from './components/Approvals';
+import Details from './components/Details';
+import Security from './components/Security';
 
 const App = () => {
   return (
@@ -97,6 +99,24 @@ const App = () => {
                   <HodRoute>
                     <Approvals />
                   </HodRoute>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path='details'
+              element={
+                <RequireAuth>
+                  <TeacherOrStaffRoute>
+                    <Details />
+                  </TeacherOrStaffRoute>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path='security'
+              element={
+                <RequireAuth>
+                  <Security />
                 </RequireAuth>
               }
             />
