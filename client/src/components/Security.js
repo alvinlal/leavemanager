@@ -7,7 +7,6 @@ const Security = () => {
   const {
     register,
     handleSubmit,
-
     getValues,
     trigger,
     watch,
@@ -16,13 +15,27 @@ const Security = () => {
     mode: 'onChange',
   });
   const { send, isLoading } = useSend();
-  const [successMessage, setSuccessMessage] = useState('Updated successfully 👍');
+  const [successMessage, setSuccessMessage] = useState('');
   const watchPassword = watch('password');
-  const onSubmit = (data) => {};
+  var timeoutId;
+
+  const onSubmit = async (details) => {
+    const { data } = await send(`${process.env.REACT_APP_API}/user/changepassword`, {
+      method: 'PUT',
+      body: JSON.stringify({ newPassword: details.password }),
+    });
+    if (data) {
+      setSuccessMessage('Updated successfully 👍');
+      timeoutId = setTimeout(() => setSuccessMessage(''), 2000);
+    }
+  };
 
   useEffect(() => {
     trigger('confirm_password'); // retriggers validation
-  }, [watchPassword, trigger]);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [watchPassword, trigger, timeoutId]);
 
   return (
     <div className='align-center flex flex-col  justify-center p-5 md:py-6 md:px-9'>

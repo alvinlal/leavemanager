@@ -21,13 +21,14 @@ const Details = () => {
   } = useForm({
     mode: 'onChange',
   });
+  var timeoutId;
 
   const onSubmit = async (userDetails) => {
     const { data } = await send(`${process.env.REACT_APP_API}/user/details`, { method: 'PUT', body: JSON.stringify(userDetails) });
     if (data) {
       reset(data);
       setSuccessMessage('Updated Successfully 👍');
-      setTimeout(() => setSuccessMessage(''), 3000);
+      timeoutId = setTimeout(() => setSuccessMessage(''), 2000);
     }
   };
 
@@ -137,7 +138,10 @@ const Details = () => {
   useEffect(() => {
     setDepartments(data);
     reset(formValues);
-  }, [data, formValues, reset]);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [data, formValues, reset, timeoutId]);
 
   return (
     <div className='align-start flex flex-col justify-start p-5 md:py-6 md:px-9'>

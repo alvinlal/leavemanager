@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import Department from '../models/Department.js';
+import Login from '../models/Login.js';
 import Staff from '../models/Staff.js';
 import Teacher from '../models/Teacher.js';
 
@@ -59,6 +61,29 @@ export const updateUserDetails = async (req, res) => {
         ...(req.user.user_type === 'TEACHER' && { dept_name: user.Department.dept_name }),
         ...(user.dept_id && { dept_id: user.dept_id }),
       },
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send('internal server error');
+  }
+};
+
+export const changePassword = async (req, res) => {
+  try {
+    const hashedpassword = await bcrypt.hash(req.body.newPassword, 10);
+    await Login.update(
+      {
+        password: hashedpassword,
+      },
+      {
+        where: {
+          username: req.user.username,
+        },
+      }
+    );
+    return res.json({
+      error: false,
+      data: {},
     });
   } catch (error) {
     console.error(error);
