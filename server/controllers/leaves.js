@@ -5,6 +5,7 @@ import formidable from 'formidable';
 import crypto from 'crypto';
 import path from 'path';
 import fs from 'fs';
+import sequelize from '../config/db.js';
 
 export const getAllLeaves = async (req, res) => {
   try {
