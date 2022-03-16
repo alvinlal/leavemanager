@@ -20,7 +20,7 @@ jobs:
       - name: Configure AWS credentials 
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # setup OIDC
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # TODO:- setup OIDC
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
       - name: Create Env files
@@ -34,7 +34,15 @@ jobs:
         run: npm run build
       - name: Copy files to s3 bucket
         run: |
-          aws s3 sync build/ s3://${{ secrets.AWS_S3_FRONTEND_BUCKET }}
+          aws s3 sync build/ s3://${{ secrets.AWS_S3_FRONTEND_BUCKET }} --exclude "index.html"
+          aws s3 sync build/ s3://${{ secrets.AWS_S3_FRONTEND_BUCKET }}  --exclude "*" --include "index.html" --cache-control "max-age=0" --content-type "text/html"
+          aws s3 sync build/ s3://${{ secrets.AWS_S3_FRONTEND_BUCKET }} --exclude "index.html" --delete
+      - name: Invalidate cloudfront distributions
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_WWW_ID }} --paths "/*"
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_NON_WWW_ID }} --paths "/*"
+      
+
       
 
 
