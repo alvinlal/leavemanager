@@ -1,24 +1,41 @@
-name: deploy-to-cloudfront
+name: deploy
 on:
   workflow_dispatch: 
   push:
     branches:
       - master
 jobs:
-  build-upload-invalidate:
+  deploy-to-cloudfront-and-ecr:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./client
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: |
-           touch .env
-           echo REACT_APP_API=${{ secrets.REACT_APP_API }} >> .env
-           echo REACT_APP_STATIC=${{ secrets.REACT_APP_STATIC }} >> .env
-      - run: npm ci
-      - run: npm run build
+      - name: Configure AWS credentials 
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # setup OIDC
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+      - name: Create Env files
+        run: |
+          touch .env
+          echo REACT_APP_API=${{ secrets.REACT_APP_API }} >> .env
+          echo REACT_APP_STATIC=${{ secrets.REACT_APP_STATIC }} >> .env
+      - name: Install Dependencies
+        run: npm ci
+      - name: build
+        run: npm run build
+      - name: Copy files to s3 bucket
+        run: |
+          aws s3 sync build/ s3://${{ secrets.AWS_S3_FRONTEND_BUCKET }}
+      
+
+
   
