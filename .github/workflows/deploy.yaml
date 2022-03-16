@@ -1,0 +1,22 @@
+name: deploy-to-cloudfront
+on:
+  workflow_dispatch: 
+  push:
+    branches:
+      - master
+jobs:
+  build-upload-invalidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: cd client
+      - run: |
+           touch .env
+           echo REACT_APP_API=${{ secrets.REACT_APP_API }} >> .env
+           echo REACT_APP_STATIC=${{ secrets.REACT_APP_STATIC }} >> .env
+      - run: npm ci
+      - run: npm run build
+  
