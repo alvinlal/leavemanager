@@ -32,11 +32,11 @@ try {
 // Middlewares
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.ENV === 'developement' ? 'http://localhost:3000' : 'https://leavemanager.co.in',
     credentials: true,
   })
 );
-app.use(express.static('public'));
+process.env.ENV === 'development' && app.use(express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
 
