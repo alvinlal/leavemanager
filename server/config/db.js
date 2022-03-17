@@ -5,7 +5,7 @@ dotenv.config();
 
 const dbname = process.env.DB_NAME;
 const dbuser = process.env.DB_USER;
-const dbpass = process.env.DB_PASS;
+const dbpass = process.env.DB_PASSWORD;
 const dbhost = process.env.DB_HOST;
 const dbdialect = process.env.DB_DIALECT;
 
