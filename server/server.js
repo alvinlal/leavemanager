@@ -41,15 +41,15 @@ app.use(cookieParser());
 app.use(express.json());
 
 // routes
-app.use('/api', authRoutes);
-app.use('/api', userRoutes);
-app.use('/api', dashboardRoutes);
-app.use('/api', departmentRoutes);
-app.use('/api', teacherRoutes);
-app.use('/api', staffRoutes);
-app.use('/api', leaveRoutes);
-app.use('/api', categoryRoutes);
-app.use('/api', approvalRoutes);
-app.use('/api', reportRoutes);
+app.use('/', authRoutes);
+app.use('/', userRoutes);
+app.use('/', dashboardRoutes);
+app.use('/', departmentRoutes);
+app.use('/', teacherRoutes);
+app.use('/', staffRoutes);
+app.use('/', leaveRoutes);
+app.use('/', categoryRoutes);
+app.use('/', approvalRoutes);
+app.use('/', reportRoutes);
 
 app.listen(PORT, console.log(`🚀 listening on port ${PORT}`));
