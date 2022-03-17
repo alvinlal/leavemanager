@@ -32,7 +32,7 @@ try {
 // Middlewares
 app.use(
   cors({
-    origin: process.env.ENV === 'developement' ? 'http://localhost:3000' : 'https://leavemanager.co.in',
+    origin: process.env.ENV === 'developement' ? 'http://localhost:3000' : 'https://www.leavemanager.co.in',
     credentials: true,
   })
 );
