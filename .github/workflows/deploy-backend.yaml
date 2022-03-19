@@ -7,7 +7,7 @@ on:
     branches:
       - master
 jobs:
-  deploy-to-cloudfront:
+  deploy-to-ecr:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,5 +32,9 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Webhook to ec2
+        run: | 
+          curl --header "secret: ${{ secrets.HOOK_SECRET }}" --header "hash: ${{ github.sha }}"  http://api.leavemanager.co.in:9000/hooks/redeploy-webhook
+
 
 
