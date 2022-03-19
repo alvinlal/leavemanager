@@ -4,7 +4,7 @@ createadmin.js
 createteacher.js
 createstaff.js
 /server/public/uploads/slips/*
-
+!.gitkeep
 # dependencies
 node_modules
 *.env

@@ -8,6 +8,8 @@ services:
       context: .
     ports:
       - "4000:4000"
+    volumes:
+      - /home/ec2-user/storage/public:/app/public
     depends_on:
       - "mysql"
   

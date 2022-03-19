@@ -36,7 +36,7 @@ app.use(
     credentials: true,
   })
 );
-process.env.ENV === 'development' && app.use(express.static('public'));
+app.use(express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
 
