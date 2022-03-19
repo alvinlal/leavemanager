@@ -1,11 +1,13 @@
-name: deploy
+name: deploy-frontend
 on:
   workflow_dispatch: 
   push:
+    paths:
+      - "client/**"
     branches:
       - master
 jobs:
-  deploy-to-cloudfront-and-ecr:
+  deploy-to-cloudfront:
     runs-on: ubuntu-latest
     defaults:
       run:
