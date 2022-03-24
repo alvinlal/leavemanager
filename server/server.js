@@ -37,10 +37,11 @@ app.use(
     credentials: true,
   })
 );
-app.use('/public', isLoggedIn);
-app.use('/public', express.static('public'));
+
 app.use(cookieParser());
 app.use(express.json());
+app.use('/public/uploads/slips', isLoggedIn);
+app.use('/public', express.static('public'));
 
 // routes
 app.use('/', authRoutes);
@@ -55,6 +56,4 @@ app.use('/', approvalRoutes);
 app.use('/', reportRoutes);
 
 // listen
-//
-//
 app.listen(PORT, console.log(`🚀 listening on port ${PORT}`));
