@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import { isLoggedIn } from './middlewares/isLoggedIn.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import db from './config/db.js';
@@ -32,11 +33,12 @@ try {
 // Middlewares
 app.use(
   cors({
-    origin: process.env.ENV === 'developement' ? 'http://localhost:3000' : 'https://www.leavemanager.co.in',
+    origin: process.env.ENV === 'development' ? 'http://localhost:3000' : 'https://www.leavemanager.co.in',
     credentials: true,
   })
 );
-app.use(express.static('public'));
+app.use('/public', isLoggedIn);
+app.use('/public', express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
 

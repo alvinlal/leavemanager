@@ -4,8 +4,7 @@ services:
   leavemanager-server:
     container_name: "leavemanager-server"
     restart: always
-    build:
-      context: .
+    image: 732313143489.dkr.ecr.ap-south-1.amazonaws.com/leavemanager-server:latest
     ports:
       - "4000:4000"
     volumes:

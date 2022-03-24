@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 export const isLoggedIn = (req, res, next) => {
+  console.log(req.cookies);
   if (!req.cookies.token) {
     return res.json({ isLoggedIn: false });
   }
