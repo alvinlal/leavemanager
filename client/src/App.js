@@ -16,118 +16,121 @@ import Leaves from './components/Leaves';
 import Approvals from './components/Approvals';
 import Details from './components/Details';
 import Security from './components/Security';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const Reports = lazy(() => import('./components/Reports'));
 
 const App = () => {
   return (
-    <UserProvider>
-      <Router>
-        <Base>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              <Route path='login' element={<Login />} />
-              <Route
-                path='/'
-                element={
-                  <RequireAuth>
-                    <Home />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path='departments'
-                element={
-                  <RequireAuth>
-                    <AdminRoute>
-                      <Departments />
-                    </AdminRoute>
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path='teachers'
-                element={
-                  <RequireAuth>
-                    <AdminRoute>
-                      <Teachers />
-                    </AdminRoute>
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path='categories'
-                element={
-                  <RequireAuth>
-                    <AdminRoute>
-                      <Categories />
-                    </AdminRoute>
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path='staffs'
-                element={
-                  <RequireAuth>
-                    <AdminRoute>
-                      <Staffs />
-                    </AdminRoute>
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path='reports'
-                element={
-                  <RequireAuth>
-                    <AdminRoute>
-                      <Reports />
-                    </AdminRoute>
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path='leaves'
-                element={
-                  <RequireAuth>
-                    <TeacherOrStaffRoute>
-                      <Leaves />
-                    </TeacherOrStaffRoute>
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path='approvals'
-                element={
-                  <RequireAuth>
-                    <HodRoute>
-                      <Approvals />
-                    </HodRoute>
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path='details'
-                element={
-                  <RequireAuth>
-                    <TeacherOrStaffRoute>
-                      <Details />
-                    </TeacherOrStaffRoute>
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path='security'
-                element={
-                  <RequireAuth>
-                    <Security />
-                  </RequireAuth>
-                }
-              />
-            </Routes>
-          </Suspense>
-        </Base>
-      </Router>
-    </UserProvider>
+    <ErrorBoundary>
+      <UserProvider>
+        <Router>
+          <Base>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                <Route path='login' element={<Login />} />
+                <Route
+                  path='/'
+                  element={
+                    <RequireAuth>
+                      <Home />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='departments'
+                  element={
+                    <RequireAuth>
+                      <AdminRoute>
+                        <Departments />
+                      </AdminRoute>
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='teachers'
+                  element={
+                    <RequireAuth>
+                      <AdminRoute>
+                        <Teachers />
+                      </AdminRoute>
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='categories'
+                  element={
+                    <RequireAuth>
+                      <AdminRoute>
+                        <Categories />
+                      </AdminRoute>
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='staffs'
+                  element={
+                    <RequireAuth>
+                      <AdminRoute>
+                        <Staffs />
+                      </AdminRoute>
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='reports'
+                  element={
+                    <RequireAuth>
+                      <AdminRoute>
+                        <Reports />
+                      </AdminRoute>
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='leaves'
+                  element={
+                    <RequireAuth>
+                      <TeacherOrStaffRoute>
+                        <Leaves />
+                      </TeacherOrStaffRoute>
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='approvals'
+                  element={
+                    <RequireAuth>
+                      <HodRoute>
+                        <Approvals />
+                      </HodRoute>
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='details'
+                  element={
+                    <RequireAuth>
+                      <TeacherOrStaffRoute>
+                        <Details />
+                      </TeacherOrStaffRoute>
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='security'
+                  element={
+                    <RequireAuth>
+                      <Security />
+                    </RequireAuth>
+                  }
+                />
+              </Routes>
+            </Suspense>
+          </Base>
+        </Router>
+      </UserProvider>
+    </ErrorBoundary>
   );
 };
 export default App;
