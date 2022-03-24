@@ -146,11 +146,9 @@ export const addLeave = async (req, res) => {
       source.pipe(dest);
       source.on('error', (err) => {
         console.error(err);
-        return res.status(500).send('internal server error');
       });
       dest.on('error', (err) => {
         console.error(err);
-        return res.status(500).send('internal server error');
       });
       source.on('end', () => {});
       return res.json({
@@ -260,11 +258,9 @@ export const updateLeave = async (req, res) => {
         source.pipe(dest);
         source.on('error', (err) => {
           console.error(err);
-          return res.status(500).send('internal server error');
         });
         dest.on('error', (err) => {
           console.error(err);
-          return res.status(500).send('internal server error');
         });
         source.on('end', () => {});
         fs.unlink(path.join(global.__basedir, `/public/uploads/slips/${fields.current_leave_slip_image}`), (err) => {
