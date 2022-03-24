@@ -24,6 +24,16 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::732313143489:role/leavemanager-github-actions
           aws-region: ap-south-1  
+      - name: Create Env files
+        run: |
+          touch .env
+          echo ENV=production >> .env
+          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+          echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+          echo DB_USER=${{ secrets.DB_USER }} >> .env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+          echo DB_DIALECT=${{ secrets.DB_DIALECT }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
