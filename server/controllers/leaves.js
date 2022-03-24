@@ -144,8 +144,14 @@ export const addLeave = async (req, res) => {
       var source = fs.createReadStream(oldPath);
       var dest = fs.createWriteStream(newPath, { flags: 'wx' });
       source.pipe(dest);
-      source.on('error', () => res.status(500).send('internal server error'));
-      dest.on('error', () => res.status(500).send('internal server error'));
+      source.on('error', (err) => {
+        console.error(err);
+        return res.status(500).send('internal server error');
+      });
+      dest.on('error', (err) => {
+        console.error(err);
+        return res.status(500).send('internal server error');
+      });
       source.on('end', () => {});
       return res.json({
         error: false,
@@ -243,7 +249,6 @@ export const updateLeave = async (req, res) => {
           );
         }
       }
-      const no_of_days = daysBetween(new Date(fields.leave_startDate), new Date(fields.leave_endDate));
 
       if (files.leave_slip_image) {
         var filename = crypto.randomBytes(10).toString('hex');
@@ -253,8 +258,14 @@ export const updateLeave = async (req, res) => {
         var source = fs.createReadStream(oldPath);
         var dest = fs.createWriteStream(newPath, { flags: 'wx' });
         source.pipe(dest);
-        source.on('error', () => res.status(500).send('internal server error'));
-        dest.on('error', () => res.status(500).send('internal server error'));
+        source.on('error', (err) => {
+          console.error(err);
+          return res.status(500).send('internal server error');
+        });
+        dest.on('error', (err) => {
+          console.error(err);
+          return res.status(500).send('internal server error');
+        });
         source.on('end', () => {});
         fs.unlink(path.join(global.__basedir, `/public/uploads/slips/${fields.current_leave_slip_image}`), (err) => {
           if (err) return res.status(500).send('internal server error');
