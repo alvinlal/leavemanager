@@ -52,4 +52,5 @@ app.use('/', categoryRoutes);
 app.use('/', approvalRoutes);
 app.use('/', reportRoutes);
 
+// listen
 app.listen(PORT, console.log(`🚀 listening on port ${PORT}`));
