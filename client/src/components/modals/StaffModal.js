@@ -106,7 +106,7 @@ const StaffModal = ({ handleClose, staffs, setStaffs, isEditing, defaultValues }
         </div>
         <div className='relative h-20 w-auto'>
           <select
-            className={`h-10 w-[330px] rounded-[3px] border-2 indent-3 text-sm font-bold outline-none ${
+            className={`h-10 w-[330px] rounded-[3px] border-2 bg-white indent-3 text-sm font-bold outline-none ${
               errors.staff_designation ? 'border-red-600' : 'border-secondary focus:border-accent'
             }`}
             {...register('staff_designation', { required: true })}

@@ -4,5 +4,5 @@
     },
     "github-actions.workflows.pinned.workflows": [".github/workflows/deploy-frontend.yaml", ".github/workflows/deploy-backend.yaml"],
     "github-actions.workflows.pinned.refresh.enabled": true,
-    "github-actions.workflows.pinned.refresh.interval": 30,
+    "github-actions.workflows.pinned.refresh.interval": 10,
 }

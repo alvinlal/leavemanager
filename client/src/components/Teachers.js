@@ -52,37 +52,37 @@ const Teachers = () => {
             </div>
             <div
               data-title='Name'
-              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+              className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
             >
               {teacher_firstname + ' ' + teacher_lastname}
             </div>
             <div
               data-title='Dept'
-              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+              className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
             >
               {dept_name}
             </div>
             <div
               data-title='Designation'
-              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+              className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
             >
               {teacher_designation}
             </div>
             <div
               data-title='Email'
-              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+              className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
             >
               {username}
             </div>
             <div
               data-title='Status'
-              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+              className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
             >
               <ToggleButton status={teacher_status} onToggle={() => toggleStatus(teacher_id, teacher_status)} />
             </div>
             <div
               data-title='Actions'
-              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+              className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
             >
               <PencilIcon
                 className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'

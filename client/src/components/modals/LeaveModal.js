@@ -160,7 +160,7 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
       <form
         encType='multipart/form-data'
         onSubmit={handleSubmit(onSubmit)}
-        className='flex h-auto w-[400px] flex-col items-center justify-between rounded-[3px] bg-white p-6 drop-shadow-lg  md:w-[500px]'
+        className='flex h-auto w-full flex-col items-center justify-between rounded-[3px] bg-white p-6 drop-shadow-lg   md:w-[500px]'
         onClick={(e) => e.stopPropagation()}
       >
         <div className='mb-6 flex w-full items-center justify-between'>
@@ -174,7 +174,9 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
             type='date'
             min={new Date(new Date().getFullYear(), 0, 1).toLocaleDateString('en-CA')}
             max={new Date(new Date().getFullYear(), 11, 31).toLocaleDateString('en-CA')}
-            className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.leave_startDate ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
+            className={`peer h-10 w-[330px] rounded-[3px] border-2 bg-white  p-3 text-sm font-bold ${
+              errors.leave_startDate ? 'border-red-600' : 'border-secondary focus:border-accent'
+            } `}
             {...register('leave_startDate', {
               required: 'Start Date is required',
               validate: {
@@ -194,7 +196,9 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
             type='date'
             min={new Date(new Date().getFullYear(), 0, 1).toLocaleDateString('en-CA')}
             max={new Date(new Date().getFullYear(), 11, 31).toLocaleDateString('en-CA')}
-            className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.leave_endDate ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
+            className={`peer h-10 w-[330px] rounded-[3px] border-2 bg-white  p-3 text-sm font-bold ${
+              errors.leave_endDate ? 'border-red-600' : 'border-secondary focus:border-accent'
+            } `}
             {...register('leave_endDate', {
               validate: {
                 isAfterStartError: (endDate) => (watchStartDate ? new Date(watchStartDate) <= new Date(endDate) : true),
@@ -212,7 +216,7 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
         <div className='relative  h-auto min-h-[5rem] w-auto'>
           <select
             id='category'
-            className={`h-10 w-[330px] rounded-[3px] border-2  indent-3 text-sm font-bold outline-none ${
+            className={`h-10 w-[330px] rounded-[3px] border-2 bg-white  indent-3 text-sm font-bold outline-none ${
               errors.category_id ? 'border-red-600' : 'border-secondary focus:border-accent'
             }`}
             {...register('category_id', { required: true, valueAsNumber: true })}
@@ -233,7 +237,9 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
         <div className='relative  h-20 w-auto'>
           <input
             type='text'
-            className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.leave_reason ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
+            className={`peer h-10 w-[330px] rounded-[3px] border-2 bg-white  p-3 text-sm font-bold ${
+              errors.leave_reason ? 'border-red-600' : 'border-secondary focus:border-accent'
+            } `}
             {...register('leave_reason', { required: 'Leave reason is required' })}
           />
           <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>Leave Reason</span>

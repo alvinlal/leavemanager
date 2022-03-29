@@ -8,18 +8,23 @@ const CategoryModal = ({ handleClose, categories, setCategories, isEditing, defa
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: 'onChange', defaultValues: isEditing ? defaultValues : { category_name: '', hasLimit: false, max_days_staff: 0, max_days_teacher: 0 } });
   const hasLimitWatch = watch('hasLimit');
   const { send, isLoading } = useSend();
 
   const addCategory = async (categoryDetails) => {
-    const { data } = await send(`${process.env.REACT_APP_API}/categories`, { body: JSON.stringify(categoryDetails) });
-    if (data) {
+    const { data, error } = await send(`${process.env.REACT_APP_API}/categories`, { body: JSON.stringify(categoryDetails) });
+    if (error) {
+      if (error.category_name) {
+        setError('category_name', { type: 'focus', message: error.category_name });
+      }
+    } else if (data) {
       setCategories([...categories, data]);
+      handleClose();
+      window.scrollTo(0, document.body.scrollHeight);
     }
-    handleClose();
-    window.scrollTo(0, document.body.scrollHeight);
   };
 
   const updateCategory = async (categoryDetails) => {
@@ -51,10 +56,10 @@ const CategoryModal = ({ handleClose, categories, setCategories, isEditing, defa
           <input
             type='text'
             className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.category_name ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
-            {...register('category_name', { required: true })}
+            {...register('category_name', { required: 'Category name is required' })}
           />
           <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>Category Name</span>
-          {errors.category_name && <p className='mt-2 ml-2 text-sm font-medium text-red-600 '>Category name is required!</p>}
+          {errors.category_name && <p className='mt-2 ml-2 text-sm font-medium text-red-600 '>{errors.category_name.message}</p>}
         </div>
         <div className='mb-7 flex w-auto items-center'>
           <input id='haslimit' type='checkbox' {...register('hasLimit')} />

@@ -200,7 +200,7 @@ const ReportModal = ({ modalValues, handleClose }) => {
   return (
     <div className='fixed left-0 right-0 bottom-0 z-40 flex h-screen w-screen items-center justify-center bg-black/25' onClick={handleClose}>
       <div
-        className='flex h-auto max-h-[95vh] w-[90%] flex-col items-start justify-start  rounded-[3px] bg-white p-6 drop-shadow-lg  md:w-[700px]'
+        className='flex h-auto max-h-[95vh] w-full flex-col items-start justify-start  rounded-[3px] bg-white p-6 drop-shadow-lg  md:w-[700px]'
         onClick={(e) => e.stopPropagation()}
       >
         <div className='mb-3 flex w-full items-center justify-between'>

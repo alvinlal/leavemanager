@@ -42,19 +42,19 @@ const Reports = () => {
       </div>
       <div
         data-title='Name'
-        className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+        className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
       >
         {applicant_name}
       </div>
       <div
         data-title='Dept'
-        className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+        className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
       >
         {dept_name ? dept_name : 'Not applicable'}
       </div>
       <div
         data-title='Total Days'
-        className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+        className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
       >
         {total_days}
       </div>
@@ -245,7 +245,7 @@ const Reports = () => {
                 value={startDateFilter}
                 type='date'
                 max={new Date(new Date().getFullYear(), 11, 31).toLocaleDateString('en-CA')}
-                className='h-10 rounded-[3px] border-2 p-3 text-sm font-bold focus:border-accent'
+                className='h-10 rounded-[3px] border-2 bg-white p-3 text-sm font-bold focus:border-accent'
               />
               <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>Start Date</span>
             </div>
@@ -255,7 +255,7 @@ const Reports = () => {
                 value={endDateFilter}
                 type='date'
                 max={new Date(new Date().getFullYear(), 11, 31).toLocaleDateString('en-CA')}
-                className='h-10 rounded-[3px] border-2 p-3 text-sm font-bold focus:border-accent'
+                className='h-10 rounded-[3px] border-2 bg-white p-3 text-sm font-bold focus:border-accent'
               />
               <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>End Date</span>
             </div>
@@ -277,7 +277,7 @@ const Reports = () => {
             <select
               onChange={(e) => setUserTypeFilter(e.target.value)}
               value={userTypeFilter}
-              className='ml-3 h-10 w-[280px] rounded-[3px] border-2 border-secondary indent-3 text-sm font-bold outline-none focus:border-accent  md:w-[200px]'
+              className='ml-3 h-10 w-[280px] rounded-[3px] border-2 border-secondary bg-white indent-3 text-sm font-bold outline-none focus:border-accent  md:w-[200px]'
             >
               <option value='all'>All</option>
               <option value='staff'>Staff</option>
@@ -289,7 +289,7 @@ const Reports = () => {
             <select
               onChange={(e) => setDepartmentFilter(e.target.value)}
               value={departmentFilter}
-              className='ml-3 h-10 w-[280px] rounded-[3px] border-2 border-secondary indent-3 text-sm font-bold outline-none  focus:border-accent'
+              className='ml-3 h-10 w-[280px] rounded-[3px] border-2 border-secondary bg-white indent-3 text-sm font-bold outline-none  focus:border-accent'
             >
               <option value='all'>All</option>
               {renderDepartmentOptions()}
@@ -300,7 +300,7 @@ const Reports = () => {
             <select
               onChange={(e) => setDesignationFilter(e.target.value)}
               value={designationFilter}
-              className='ml-3 h-10 w-[280px] rounded-[3px] border-2 border-secondary indent-3 text-sm font-bold outline-none focus:border-accent  md:w-[200px]'
+              className='ml-3 h-10 w-[280px] rounded-[3px] border-2 border-secondary bg-white indent-3 text-sm font-bold outline-none focus:border-accent  md:w-[200px]'
             >
               <option value='all'>All</option>
               <option value='Prof'>Prof</option>

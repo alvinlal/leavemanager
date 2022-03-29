@@ -38,9 +38,9 @@ const Security = () => {
   }, [watchPassword, trigger, timeoutId]);
 
   return (
-    <div className='align-center flex flex-col  justify-center p-5 md:py-6 md:px-9'>
+    <div className='flex w-full flex-col   justify-center p-5 md:py-6 md:px-9'>
       <h1 className='mb-10 text-2xl font-bold text-primary md:text-3xl'>Security</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className='m-auto flex h-[400px] w-[350px] flex-col items-center justify-between rounded-md border-2 border-gray-300 py-8 '>
+      <form onSubmit={handleSubmit(onSubmit)} className='m-auto flex h-[400px] w-full flex-col items-center justify-between rounded-md border-2 border-gray-300 py-8 md:w-[350px] '>
         <h1 className='mb-8 text-xl font-bold text-primary'>Change Password</h1>
         <input
           type='password'

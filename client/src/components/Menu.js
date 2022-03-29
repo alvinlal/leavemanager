@@ -163,7 +163,7 @@ const Menu = ({ menuVisible, toggleMenu }) => {
       <div onClick={() => toggleMenu(false)} className='ml-auto mt-4 mr-7 flex h-9 w-9 items-center justify-center rounded-[5px] bg-[#3E4173] hover:cursor-pointer md:hidden'>
         <XIcon className='h-7 w-7 text-white' />
       </div>
-      <div className=' flex h-auto w-full flex-col items-center justify-center md:h-full'>{renderMenuOptions()}</div>
+      <div className=' flex h-auto w-full flex-col items-center justify-start md:h-full'>{renderMenuOptions()}</div>
     </div>
   );
 };

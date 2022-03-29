@@ -25,6 +25,13 @@ export const addCategory = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    if (error.name == 'SequelizeUniqueConstraintError') {
+      return res.json({
+        error: {
+          category_name: 'category already exists',
+        },
+      });
+    }
     return res.status(500).send('internal server error');
   }
 };

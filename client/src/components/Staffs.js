@@ -113,8 +113,8 @@ const Staffs = () => {
         <div className='hidden h-24 w-full md:table-row'>
           <div className='table-cell  rounded-tl-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Sl.No</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Name</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Designation</div>
-          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Email</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-right align-middle text-lg font-bold text-primary md:text-center '>Designation</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-right align-middle text-lg font-bold text-primary md:text-center '>Email</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Status</div>
           <div className='table-cell  rounded-tr-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Actions</div>
         </div>
