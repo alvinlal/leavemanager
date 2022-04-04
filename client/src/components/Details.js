@@ -81,7 +81,7 @@ const Details = () => {
           </div>
           <div className='relative h-20 w-auto'>
             <select
-              className={`h-10 w-[260px] rounded-[3px] border-2 indent-3 text-sm font-bold outline-none ${
+              className={`h-10 w-[260px] rounded-[3px] border-2 bg-white indent-3 text-sm font-bold outline-none ${
                 errors.teacher_designation ? 'border-red-600' : 'border-secondary focus:border-accent'
               }`}
               {...register('designation', { required: true })}
@@ -106,7 +106,7 @@ const Details = () => {
           {user.user_type === 'TEACHER' && (
             <div className='relative  h-20 w-auto'>
               <select
-                className={`h-10  w-[300px] rounded-[3px] border-2 border-secondary indent-3 text-sm font-bold outline-none ${
+                className={`h-10 w-[300px]  rounded-[3px] border-2 border-secondary bg-white indent-3 text-sm font-bold outline-none ${
                   errors.dept_id ? 'border-red-600' : 'border-secondary focus:border-accent'
                 }`}
                 {...register('dept_id', { required: true, valueAsNumber: true })}
