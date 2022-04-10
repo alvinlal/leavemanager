@@ -15,7 +15,6 @@ import leaveRoutes from './routes/leaves.js';
 import categoryRoutes from './routes/categories.js';
 import approvalRoutes from './routes/approvals.js';
 import reportRoutes from './routes/reports.js';
-import { errorHandler } from './middlewares/errorHandler.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
