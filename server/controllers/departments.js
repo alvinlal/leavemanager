@@ -1,6 +1,6 @@
 import Department from '../models/Department.js';
 
-export const getAllDepartments = async (req, res) => {
+export const getAllDepartments = async (req, res, next) => {
   try {
     const departments = await Department.findAll({
       attributes: ['dept_id', 'dept_name', 'dept_status'],
@@ -29,10 +29,7 @@ export const addDepartment = async (req, res) => {
 
 export const updateDepartment = async (req, res) => {
   try {
-    await Department.update(
-      { dept_name: req.body.dept_name },
-      { where: { dept_id: req.body.dept_id } }
-    );
+    await Department.update({ dept_name: req.body.dept_name }, { where: { dept_id: req.body.dept_id } });
     const { dept_name, dept_id } = await Department.findByPk(req.body.dept_id, {
       attributes: ['dept_name', 'dept_id'],
     });

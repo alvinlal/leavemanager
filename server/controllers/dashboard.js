@@ -3,7 +3,6 @@ import { Op, QueryTypes } from 'sequelize';
 import Leave from '../models/Leave.js';
 
 export const getDashBoardData = async (req, res) => {
-  console.log(req.user);
   try {
     if (req.user.user_type === 'ADMIN') {
       const startOftheCurrentYear = new Date(new Date().getFullYear(), 0, 1).toLocaleDateString('en-CA');

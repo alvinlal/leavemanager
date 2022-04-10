@@ -9,6 +9,13 @@ services:
       - "4000:4000"
     volumes:
       - /home/ec2-user/storage/public:/app/public
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-south-1
+        awslogs-group: leavemanager
+        awslogs-stream: application-server-logs
+
     depends_on:
       - "mysql"
   
