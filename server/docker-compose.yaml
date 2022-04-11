@@ -15,7 +15,7 @@ services:
         awslogs-region: ap-south-1
         awslogs-group: leavemanager
         awslogs-stream: application-server-logs
-
+        
     depends_on:
       - "mysql"
   

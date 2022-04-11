@@ -8,7 +8,7 @@ const printerFn = printf(({ level, message, timestamp }) => {
 
 const getFormatter = () =>
   process.env.ENV === 'production'
-    ? combine(timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }), printerFn)
+    ? printerFn
     : combine(format.colorize(), timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }), printerFn);
 
 const logger = createLogger({
