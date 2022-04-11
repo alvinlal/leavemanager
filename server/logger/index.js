@@ -3,7 +3,7 @@ import { createLogger, format, transports } from 'winston';
 const { combine, timestamp, label, printf, json } = format;
 
 const printerFn = printf(({ level, message, timestamp }) => {
-  return `${timestamp} [${level}] ${message}`;
+  return process.env.ENV === 'production' ? `[${level}] ${message}` : `${timestamp} [${level}] ${message}`;
 });
 
 const getFormatter = () =>
