@@ -22,7 +22,7 @@ export const getUserDetails = async (req, res) => {
       ...(user.dept_id && { dept_id: user.dept_id }),
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server errror');
   }
 };
@@ -63,7 +63,7 @@ export const updateUserDetails = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -86,7 +86,7 @@ export const changePassword = async (req, res) => {
       data: {},
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };

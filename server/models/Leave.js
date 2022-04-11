@@ -53,9 +53,9 @@ Leave.Teacher = Leave.belongsTo(Teacher, { foreignKey: 'leave_approved_by', targ
 
 try {
   await Leave.sync();
-  console.log('Leave table (re)created');
+  global.logger.info('Leave table (re)created');
 } catch (error) {
-  console.error('Unable to create leave table : ', error);
+  global.logger.error(`Unable to create leave table: ${error.message}`);
 }
 
 export default Leave;

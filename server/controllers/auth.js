@@ -90,7 +90,7 @@ export const login = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('Cannot query db : ', error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('Internal Server error');
   }
 };

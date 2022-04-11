@@ -25,9 +25,9 @@ const Department = db.define(
 
 try {
   await Department.sync();
-  console.log('Department table (re)created');
+  global.logger.info('Department table (re)created');
 } catch (error) {
-  console.error('Unable to create department table : ', error);
+  global.logger.error(`Unable to create department table: ${error.message}`);
 }
 
 export default Department;

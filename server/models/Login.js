@@ -24,9 +24,9 @@ const Login = db.define(
 
 try {
   await Login.sync();
-  console.log('Login table (re)created');
+  global.logger.info('Login table (re)created');
 } catch (error) {
-  console.error('Unable to create login table : ', error);
+  global.logger.error(`Unable to create login table: ${error.message}`);
 }
 
 export default Login;

@@ -17,7 +17,7 @@ export const getAllApprovals = async (req, res) => {
 
     return res.json(leaves);
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -36,7 +36,7 @@ export const changeApprovalStatus = async (req, res) => {
       data: { leave_id, leave_approval_status },
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };

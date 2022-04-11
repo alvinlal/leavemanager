@@ -27,7 +27,7 @@ export const getAllLeaves = async (req, res) => {
     });
     return res.json(leaves);
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -145,10 +145,10 @@ export const addLeave = async (req, res) => {
       var dest = fs.createWriteStream(newPath, { flags: 'wx' });
       source.pipe(dest);
       source.on('error', (err) => {
-        console.error(err);
+        global.logger.error(`${error.message} ${error.stack}`);
       });
       dest.on('error', (err) => {
-        console.error(err);
+        global.logger.error(`${error.message} ${error.stack}`);
       });
       source.on('end', () => {});
       return res.json({
@@ -168,7 +168,7 @@ export const addLeave = async (req, res) => {
         },
       });
     } catch (error) {
-      console.error(error);
+      global.logger.error(`${error.message} ${error.stack}`);
       return res.status(500).send('internal server error');
     }
   });
@@ -178,7 +178,7 @@ export const updateLeave = async (req, res) => {
   const form = formidable({});
   form.parse(req, async (err, fields, files) => {
     if (err) {
-      console.error(error);
+      global.logger.error(`${error.message} ${error.stack}`);
       return res.status(500).send('internal server error');
     }
 
@@ -304,7 +304,7 @@ export const updateLeave = async (req, res) => {
         },
       });
     } catch (error) {
-      console.error(error);
+      global.logger.error(`${error.message} ${error.stack}`);
       return res.status(500).send('internal server error');
     }
   });

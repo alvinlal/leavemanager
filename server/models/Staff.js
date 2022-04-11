@@ -36,9 +36,9 @@ Staff.Login = Staff.belongsTo(Login, { foreignKey: 'username' });
 
 try {
   await Staff.sync();
-  console.log('Staff table (re)created');
+  global.logger.info('Staff table (re)created');
 } catch (error) {
-  console.error('Unable to create staff table : ', error);
+  global.logger.error(`Unable to create staff table: ${error.message}`);
 }
 
 export default Staff;

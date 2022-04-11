@@ -7,7 +7,7 @@ export const getAllDepartments = async (req, res, next) => {
     });
     return res.json(departments);
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -22,7 +22,7 @@ export const addDepartment = async (req, res) => {
       data: { dept_id, dept_name, dept_status },
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -39,7 +39,7 @@ export const updateDepartment = async (req, res) => {
       data: { dept_name, dept_id },
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -54,7 +54,7 @@ export const toggleDepartmentStatus = async (req, res) => {
       error: false,
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };

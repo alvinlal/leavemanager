@@ -38,9 +38,9 @@ Teacher.belongsTo(Department, { foreignKey: 'dept_id' });
 
 try {
   await Teacher.sync();
-  console.log('Teacher table (re)created');
+  global.logger.info('Teacher table (re)created');
 } catch (error) {
-  console.error('Unable to create teacher table : ', error);
+  global.logger.error(`Unable to create teacher table: ${error.message}`);
 }
 
 export default Teacher;

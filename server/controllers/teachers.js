@@ -19,7 +19,7 @@ export const getAllTeachers = async (req, res) => {
     });
     return res.json(teachers);
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -69,7 +69,6 @@ export const addTeacher = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
     if (error.name == 'SequelizeUniqueConstraintError') {
       return res.json({
         error: {
@@ -77,6 +76,7 @@ export const addTeacher = async (req, res) => {
         },
       });
     }
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -105,7 +105,7 @@ export const updateTeacher = async (req, res) => {
       data: { teacher_id, dept_id, teacher_firstname, teacher_lastname, teacher_designation },
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -120,7 +120,7 @@ export const toggleTeacherStatus = async (req, res) => {
       error: false,
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };

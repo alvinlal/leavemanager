@@ -12,6 +12,7 @@ const dbdialect = process.env.DB_DIALECT;
 const sequelize = new Sequelize(dbname, dbuser, dbpass, {
   host: dbhost,
   dialect: dbdialect,
+  logging: false,
   dialectOptions: {
     multipleStatements: true,
   },

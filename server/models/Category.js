@@ -42,9 +42,9 @@ const Category = db.define(
 
 try {
   await Category.sync();
-  console.log('Category table (re)created');
+  global.logger.info('Category table (re)created');
 } catch (error) {
-  console.error('Unable to create category table : ', error);
+  global.logger.error(`Unable to create category table: ${error.message}`);
 }
 
 export default Category;

@@ -5,7 +5,7 @@ export const getAllCategories = async (req, res) => {
     const categories = await Category.findAll();
     return res.json(categories);
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -24,7 +24,6 @@ export const addCategory = async (req, res) => {
       data: category,
     });
   } catch (error) {
-    console.error(error);
     if (error.name == 'SequelizeUniqueConstraintError') {
       return res.json({
         error: {
@@ -32,6 +31,7 @@ export const addCategory = async (req, res) => {
         },
       });
     }
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -55,7 +55,7 @@ export const updateCategory = async (req, res) => {
       data: category,
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -72,7 +72,7 @@ export const toggleCategoryStatus = async (req, res) => {
       error: false,
     });
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };

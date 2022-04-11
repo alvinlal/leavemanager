@@ -1,6 +1,8 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import logger from './logger/index.js';
+import httpLogger from './middlewares/httpLogger.js';
 import { isLoggedIn } from './middlewares/isLoggedIn.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -25,12 +27,13 @@ global.__basedir = dirname(fileURLToPath(import.meta.url));
 // DB connection test
 try {
   await db.authenticate();
-  console.log('DATABASE CONNECTED');
+  logger.info('DATABASE CONNECTED');
 } catch (error) {
-  console.error('Unable to connect to database : ', error);
+  logger.error(`Unable to establish connection to db : ${error.message}`);
 }
 
 // Middlewares
+app.use(httpLogger);
 app.use(
   cors({
     origin: process.env.ENV === 'development' ? 'http://localhost:3000' : 'https://www.leavemanager.co.in',
@@ -56,4 +59,4 @@ app.use('/', approvalRoutes);
 app.use('/', reportRoutes);
 
 // listen
-app.listen(PORT, console.log(`🚀 listening on port ${PORT}`));
+app.listen(PORT, logger.info(`🚀 server listening on port ${PORT}`));

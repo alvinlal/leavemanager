@@ -33,7 +33,7 @@ export const getDashBoardData = async (req, res) => {
       return res.json(leaves);
     }
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };

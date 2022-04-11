@@ -14,7 +14,7 @@ export const getReport = async (req, res) => {
       return res.status(400).send('bad request');
     }
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
@@ -41,7 +41,7 @@ export const getReportByUsername = async (req, res) => {
       return res.status(400).send('bad request');
     }
   } catch (error) {
-    console.error(error);
+    global.logger.error(`${error.message} ${error.stack}`);
     return res.status(500).send('internal server error');
   }
 };
