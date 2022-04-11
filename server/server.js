@@ -1,12 +1,12 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import logger from './logger/index.js';
-import httpLogger from './middlewares/httpLogger.js';
 import { isLoggedIn } from './middlewares/isLoggedIn.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import db from './config/db.js';
+import logger from './logger/index.js';
+import httpLogger from './middlewares/httpLogger.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/user.js';
 import dashboardRoutes from './routes/dashboard.js';
