@@ -6,9 +6,14 @@ const printerFn = printf(({ level, message, timestamp }) => {
   return `${timestamp} [${level}] ${message}`;
 });
 
+const getFormatter = () =>
+  process.env.ENV === 'production'
+    ? combine(timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }), printerFn)
+    : combine(format.colorize(), timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }), printerFn);
+
 const logger = createLogger({
   level: 'debug',
-  format: combine(format.colorize(), timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }), printerFn),
+  format: getFormatter(),
   transports: [new transports.Console()],
 });
 
