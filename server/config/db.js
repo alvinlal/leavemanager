@@ -19,6 +19,11 @@ const sequelize = new Sequelize(dbname, dbuser, dbpass, {
   define: {
     freezeTableName: true,
   },
+  pool: {
+    max: 5,
+    min: 1,
+    idle: 10000,
+  },
 });
 
 export default sequelize;
