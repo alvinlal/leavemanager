@@ -28,7 +28,10 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
     });
     if (error) {
       if (error.username) {
-        setError('username', { type: 'focus', message: error.username }, { shouldFocus: true });
+        setError('username', { type: 'focus', message: error.username });
+      }
+      if (error.hod) {
+        setError('teacher_designation', { type: 'focus', message: error.hod });
       }
     } else if (data) {
       setTeachers([...teachers, data]);
@@ -46,8 +49,13 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
   };
 
   const updateTeacher = async (teacherDetails) => {
-    const { data } = await send(`${process.env.REACT_APP_API}/teachers`, { method: 'PUT', body: JSON.stringify(teacherDetails) });
-    if (data) {
+    const { data, error } = await send(`${process.env.REACT_APP_API}/teachers`, { method: 'PUT', body: JSON.stringify(teacherDetails) });
+
+    if (error) {
+      if (error.hod) {
+        setError('teacher_designation', { type: 'focus', message: error.hod });
+      }
+    } else if (data) {
       setTeachers(
         teachers.map((teacher) =>
           teacher.teacher_id === data.teacher_id
@@ -64,8 +72,8 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
             : teacher
         )
       );
+      handleClose();
     }
-    handleClose();
   };
 
   const onSubmit = (teacherDetails) => {
@@ -168,7 +176,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
             className={`h-10 w-[330px] rounded-[3px] border-2 bg-white indent-3 text-sm font-bold outline-none ${
               errors.teacher_designation ? 'border-red-600' : 'border-secondary focus:border-accent'
             }`}
-            {...register('teacher_designation', { required: true })}
+            {...register('teacher_designation', { required: 'Please select a designation' })}
           >
             <option hidden value=''>
               -- select a designation --
@@ -177,7 +185,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
             <option>Asst.Prof</option>
             <option>HOD</option>
           </select>
-          {errors.teacher_designation && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>Please select a designation</p>}
+          {errors.teacher_designation && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>{errors.teacher_designation.message}</p>}
         </div>
         <div className='mt-6 flex w-full items-center justify-between'>
           <button

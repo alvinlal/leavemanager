@@ -35,8 +35,6 @@ export const updateUserDetails = async (req, res) => {
         ? {
             teacher_firstname: req.body.firstname,
             teacher_lastname: req.body.lastname,
-            teacher_designation: req.body.designation,
-            dept_id: req.body.dept_id,
           }
         : {
             staff_firstname: req.body.firstname,
@@ -58,8 +56,8 @@ export const updateUserDetails = async (req, res) => {
         firstname: user.teacher_firstname ? user.teacher_firstname : user.staff_firstname,
         lastname: user.teacher_lastname ? user.teacher_lastname : user.staff_lastname,
         designation: user.teacher_designation ? user.teacher_designation : user.staff_designation,
-        ...(req.user.user_type === 'TEACHER' && { dept_name: user.Department.dept_name }),
-        ...(user.dept_id && { dept_id: user.dept_id }),
+        // ...(req.user.user_type === 'TEACHER' && { dept_name: user.Department.dept_name }),
+        // ...(user.dept_id && { dept_id: user.dept_id }),
       },
     });
   } catch (error) {

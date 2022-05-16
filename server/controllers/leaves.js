@@ -191,12 +191,18 @@ export const updateLeave = async (req, res) => {
     }
     try {
       //checks if leave applications already exists in given date range
+
       const query =
         fields.leave_startDate == fields.leave_endDate
-          ? `SELECT leave_id,leave_startDate,leave_endDate FROM tbl_leave WHERE applicant_username=$username AND DATE($startdate) BETWEEN leave_startDate AND leave_endDate;`
-          : `SELECT leave_id FROM tbl_leave WHERE applicant_username=$username AND (leave_startDate BETWEEN $startdate AND $enddate OR leave_endDate BETWEEN $startdate AND $enddate)`;
+          ? `SELECT leave_id,leave_startDate,leave_endDate FROM tbl_leave WHERE applicant_username=$username AND leave_id != $leaveid AND DATE($startdate) BETWEEN leave_startDate AND leave_endDate ;`
+          : `SELECT leave_id FROM tbl_leave WHERE applicant_username=$username AND leave_id != $leaveid AND (leave_startDate BETWEEN $startdate AND $enddate OR leave_endDate BETWEEN $startdate AND $enddate)`;
       const hasLeaves = await sequelize.query(query, {
-        bind: { startdate: fields.leave_startDate, enddate: fields.leave_endDate, username: req.user.username },
+        bind: {
+          startdate: fields.leave_startDate,
+          enddate: fields.leave_endDate,
+          username: req.user.username,
+          leaveid: fields.leave_id,
+        },
         type: QueryTypes.SELECT,
       });
       if (hasLeaves.length) {

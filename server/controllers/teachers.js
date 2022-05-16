@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import Department from '../models/Department.js';
 import Teacher from '../models/Teacher.js';
 import bcrypt from 'bcrypt';
@@ -28,6 +29,16 @@ export const addTeacher = async (req, res) => {
   const randomPassword = crypto.randomBytes(6).toString('hex');
   const hashedpassword = await bcrypt.hash(randomPassword, 10);
   try {
+    if (req.body.teacher_designation == 'HOD') {
+      const hodExists = await Teacher.count({ where: { dept_id: req.body.dept_id, teacher_designation: 'HOD' } });
+      if (hodExists) {
+        return res.json({
+          error: {
+            hod: 'HOD already exists for this department !',
+          },
+        });
+      }
+    }
     const { username, teacher_id, dept_id, teacher_firstname, teacher_lastname, teacher_designation, teacher_status } =
       await Teacher.create(
         {
@@ -83,6 +94,25 @@ export const addTeacher = async (req, res) => {
 
 export const updateTeacher = async (req, res) => {
   try {
+    if (req.body.teacher_designation == 'HOD') {
+      const hodExists = await Teacher.count({
+        where: {
+          teacher_id: {
+            [Op.not]: req.body.teacher_id,
+          },
+          dept_id: req.body.dept_id,
+          teacher_designation: 'HOD',
+        },
+      });
+      console.log(hodExists);
+      if (hodExists) {
+        return res.json({
+          error: {
+            hod: 'HOD already exists for this department !',
+          },
+        });
+      }
+    }
     await Teacher.update(
       {
         teacher_firstname: req.body.teacher_firstname,
