@@ -16,7 +16,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
     formState: { errors, isDirty, isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: isEditing ? defaultValues : { teacher_firstname: '', teacher_lastname: '', dept_id: '', teacher_designation: '', username: '' },
+    defaultValues: isEditing ? defaultValues : { teacher_firstname: '', teacher_lastname: '', dept_id: '', teacher_designation: '', username: '', teacher_doj: '' },
   });
   useEffect(() => {
     setDepartments(data);
@@ -67,6 +67,7 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
                   dept_name: getDepartmentName(),
                 },
                 teacher_designation: data.teacher_designation,
+                teacher_doj: data.teacher_doj,
                 dept_id: data.dept_id,
               }
             : teacher
@@ -187,7 +188,18 @@ const TeacherModal = ({ handleClose, teachers, setTeachers, isEditing, defaultVa
           </select>
           {errors.teacher_designation && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>{errors.teacher_designation.message}</p>}
         </div>
-        <div className='mt-6 flex w-full items-center justify-between'>
+        <div className='relative h-20 w-auto'>
+          <input
+            type='date'
+            className={`h-10 w-[330px] rounded-[3px] border-2 bg-white indent-2 text-sm font-bold outline-none ${
+              errors.teacher_doj ? 'border-red-600' : 'border-secondary focus:border-accent'
+            }`}
+            {...register('teacher_doj', { required: 'Please select a date' })}
+          />
+          <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>Date of joining</span>
+          {errors.teacher_doj && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>{errors.teacher_doj.message}</p>}
+        </div>
+        <div className='mt-3 flex w-full items-center justify-between'>
           <button
             disabled={isLoading}
             type='button'

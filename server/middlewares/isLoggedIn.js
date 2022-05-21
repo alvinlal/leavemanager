@@ -6,8 +6,8 @@ export const isLoggedIn = (req, res, next) => {
   }
   try {
     const user = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
-    const { username, user_type, name, isHOD } = user;
-    req.user = { username, user_type, name, ...(isHOD && { isHOD }) };
+    const { username, user_type, name, isHOD, doj } = user;
+    req.user = { username, user_type, name, ...(isHOD && { isHOD }), ...(doj && { doj }) };
   } catch (error) {
     return res.status(401).json({ isLoggedIn: false });
   }

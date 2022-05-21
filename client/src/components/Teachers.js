@@ -27,7 +27,7 @@ const Teachers = () => {
 
   const renderTeachers = () => {
     if (isLoading) {
-      return <PulseAnimation noOfCells={7} />;
+      return <PulseAnimation noOfCells={8} />;
     } else if (teachers) {
       return teachers.map((teacher, index) => {
         const {
@@ -37,6 +37,7 @@ const Teachers = () => {
           teacher_firstname,
           teacher_lastname,
           teacher_designation,
+          teacher_doj,
           teacher_status,
           Department: { dept_name },
         } = teacher;
@@ -69,6 +70,12 @@ const Teachers = () => {
               {teacher_designation}
             </div>
             <div
+              data-title='Date of joining'
+              className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
+            >
+              {teacher_doj}
+            </div>
+            <div
               data-title='Email'
               className={`flex w-full items-center justify-between border-secondary p-3 text-right align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:text-center md:before:content-none`}
             >
@@ -89,7 +96,7 @@ const Teachers = () => {
                 onClick={() => {
                   toggleModal();
                   setIsEditing(true);
-                  setDefaultValues({ teacher_id, dept_id, dept_name, teacher_firstname, teacher_lastname, teacher_designation });
+                  setDefaultValues({ teacher_id, dept_id, dept_name, teacher_firstname, teacher_lastname, teacher_doj, teacher_designation });
                 }}
               />
             </div>
@@ -130,6 +137,7 @@ const Teachers = () => {
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Name</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Dept</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Designation</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Date of joining</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Email</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Status</div>
           <div className='table-cell  rounded-tr-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Actions</div>

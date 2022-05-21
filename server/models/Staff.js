@@ -22,6 +22,10 @@ const Staff = db.define(
       type: DataTypes.ENUM('Accountant', 'Administrator', 'Clerk', 'Librarian'),
       allowNull: false,
     },
+    staff_doj: {
+      type: DataTypes.DATEONLY,
+      required: true,
+    },
     staff_status: {
       type: DataTypes.BOOLEAN,
       defaultValue: 1,

@@ -12,7 +12,7 @@ const StaffModal = ({ handleClose, staffs, setStaffs, isEditing, defaultValues }
     formState: { errors, isDirty, isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: isEditing ? defaultValues : { staff_firstname: '', staff_lastname: '', staff_designation: '', username: '' },
+    defaultValues: isEditing ? defaultValues : { staff_firstname: '', staff_lastname: '', staff_designation: '', staff_doj: '', username: '' },
   });
 
   const addStaff = async (staffDetails) => {
@@ -44,6 +44,7 @@ const StaffModal = ({ handleClose, staffs, setStaffs, isEditing, defaultValues }
                 staff_firstname: data.staff_firstname,
                 staff_lastname: data.staff_lastname,
                 staff_designation: data.staff_designation,
+                staff_doj: data.staff_doj,
               }
             : staff
         )
@@ -89,20 +90,20 @@ const StaffModal = ({ handleClose, staffs, setStaffs, isEditing, defaultValues }
         <div className='relative  h-20 w-auto'>
           <input
             type='text'
-            className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.teacher_firstname ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
+            className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.staff_firstname ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
             {...register('staff_firstname', { required: true })}
           />
           <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>Firstname</span>
-          {errors.teacher_firstname && <p className='mt-2 ml-2 text-sm font-medium text-red-600 '>Firstname is required!</p>}
+          {errors.staff_firstname && <p className='mt-2 ml-2 text-sm font-medium text-red-600 '>Firstname is required!</p>}
         </div>
         <div className='relative  h-20 w-auto'>
           <input
             type='text'
-            className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.teacher_lastname ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
+            className={`peer h-10 w-[330px] rounded-[3px] border-2  p-3 text-sm font-bold ${errors.staff_lastname ? 'border-red-600' : 'border-secondary focus:border-accent'} `}
             {...register('staff_lastname', { required: true })}
           />
           <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>Lastname</span>
-          {errors.teacher_lastname && <p className='mt-2 ml-2 text-sm font-medium text-red-600 '>Lastname is required!</p>}
+          {errors.staff_lastname && <p className='mt-2 ml-2 text-sm font-medium text-red-600 '>Lastname is required!</p>}
         </div>
         <div className='relative h-20 w-auto'>
           <select
@@ -119,7 +120,18 @@ const StaffModal = ({ handleClose, staffs, setStaffs, isEditing, defaultValues }
             <option>Clerk</option>
             <option>Librarian</option>
           </select>
-          {errors.teacher_designation && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>Please select a designation</p>}
+          {errors.staff_designation && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>Please select a designation</p>}
+        </div>
+        <div className='relative h-20 w-auto'>
+          <input
+            type='date'
+            className={`h-10 w-[330px] rounded-[3px] border-2 bg-white indent-2 text-sm font-bold outline-none ${
+              errors.staff_doj ? 'border-red-600' : 'border-secondary focus:border-accent'
+            }`}
+            {...register('staff_doj', { required: 'Please select a date' })}
+          />
+          <span className='pointer-events-none absolute  -top-[10px] left-4 bg-white p-1 text-xs text-[#909090]'>Date of joining</span>
+          {errors.staff_doj && <p className='mt-2 ml-2 text-sm font-medium text-red-600'>{errors.staff_doj.message}</p>}
         </div>
         <div className='mt-6 flex w-full items-center justify-between'>
           <button

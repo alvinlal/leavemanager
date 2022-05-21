@@ -29,14 +29,22 @@ export const login = async (req, res) => {
 
     const { username, user_type } = user;
     var name;
+    var doj = null;
     var isHOD = false;
 
     switch (user_type) {
       case 'TEACHER': {
-        var { teacher_firstname, teacher_lastname, teacher_designation, teacher_status } = await Teacher.findOne({
-          attributes: ['teacher_firstname', 'teacher_lastname', 'teacher_designation', 'teacher_status'],
-          where: { username: email },
-        });
+        var { teacher_firstname, teacher_lastname, teacher_designation, teacher_doj, teacher_status } =
+          await Teacher.findOne({
+            attributes: [
+              'teacher_firstname',
+              'teacher_lastname',
+              'teacher_designation',
+              'teacher_doj',
+              'teacher_status',
+            ],
+            where: { username: email },
+          });
 
         if (!teacher_status) {
           return res.json({
@@ -48,11 +56,12 @@ export const login = async (req, res) => {
           isHOD = true;
         }
         name = teacher_firstname + ' ' + teacher_lastname;
+        doj = teacher_doj;
         break;
       }
       case 'STAFF': {
-        var { staff_firstname, staff_lastname, staff_status } = await Staff.findOne({
-          attributes: ['staff_firstname', 'staff_lastname', 'staff_status'],
+        var { staff_firstname, staff_lastname, staff_doj, staff_status } = await Staff.findOne({
+          attributes: ['staff_firstname', 'staff_lastname', 'staff_status', 'staff_doj'],
           where: { username: email },
         });
         if (!staff_status) {
@@ -61,6 +70,7 @@ export const login = async (req, res) => {
           });
         }
         name = staff_firstname + ' ' + staff_lastname;
+        doj = staff_doj;
         break;
       }
       case 'ADMIN': {
@@ -69,9 +79,13 @@ export const login = async (req, res) => {
       }
     }
 
-    const token = jwt.sign({ username, user_type, name, ...(isHOD && { isHOD }) }, process.env.JWT_SECRET, {
-      expiresIn: '25 days',
-    });
+    const token = jwt.sign(
+      { username, user_type, name, ...(doj && { doj }), ...(isHOD && { isHOD }) },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '25 days',
+      }
+    );
 
     res.cookie('token', token, {
       httpOnly: true,
@@ -85,6 +99,7 @@ export const login = async (req, res) => {
         username,
         user_type,
         ...(isHOD && { isHOD }),
+        ...(doj && { doj }),
         name,
         isLoggedIn: true,
       },
@@ -99,8 +114,8 @@ export const me = (req, res) => {
   if (!req.user) {
     return res.json({ isLoggedIn: false });
   }
-  const { username, user_type, name, isHOD } = req.user;
-  return res.json({ username, user_type, name, isLoggedIn: true, ...(isHOD && { isHOD }) });
+  const { username, user_type, name, isHOD, doj } = req.user;
+  return res.json({ username, user_type, name, isLoggedIn: true, ...(doj && { doj }), ...(isHOD && { isHOD }) });
 };
 
 export const logout = (req, res) => {

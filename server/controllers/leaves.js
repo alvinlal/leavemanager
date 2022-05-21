@@ -93,21 +93,35 @@ export const addLeave = async (req, res) => {
 
         const newNoOfDays =
           total_no_of_days + daysBetween(new Date(fields.leave_startDate), new Date(fields.leave_endDate));
+
+        // deduct leaves if doj is in current year
+        if (new Date(req.user.doj).getFullYear() == new Date().getFullYear()) {
+          if (req.user.user_type === 'TEACHER') {
+            let noOfMonthsPassed = new Date().getMonth();
+            fields.max_days_teacher =
+              fields.max_days_teacher - Math.floor(fields.max_days_teacher / 12) * noOfMonthsPassed;
+          } else {
+            let noOfMonthsPassed = new Date().getMonth();
+            fields.max_days_staff = fields.max_days_staff - Math.floor(fields.max_days_staff / 12) * noOfMonthsPassed;
+          }
+        }
+
         const remainingDays =
           req.user.user_type === 'TEACHER'
-            ? fields.max_days_teachers - total_no_of_days
+            ? fields.max_days_teacher - total_no_of_days
             : fields.max_days_staff - total_no_of_days;
-        if (newNoOfDays > (req.user.user_type === 'TEACHER' ? fields.max_days_teachers : fields.max_days_staff)) {
+
+        if (newNoOfDays > (req.user.user_type === 'TEACHER' ? fields.max_days_teacher : fields.max_days_staff)) {
           return res.json(
             remainingDays == 0
               ? {
                   error: {
-                    category: `You have reached your limit for ${fields.category_name}`,
+                    category: `You have reached your limit for ${fields.category_name} in this year`,
                   },
                 }
               : {
                   error: {
-                    date: `You have ${remainingDays} leaves remaining for ${fields.category_name}`,
+                    date: `You have only ${remainingDays} leaves remaining for ${fields.category_name} in this year`,
                   },
                 }
           );
@@ -233,11 +247,25 @@ export const updateLeave = async (req, res) => {
 
         const newNoOfDays =
           total_no_of_days + daysBetween(new Date(fields.leave_startDate), new Date(fields.leave_endDate));
+
+        // deduct leaves if doj is in current year
+        if (new Date(req.user.doj).getFullYear() == new Date().getFullYear()) {
+          if (req.user.user_type === 'TEACHER') {
+            let noOfMonthsPassed = new Date().getMonth();
+            fields.max_days_teacher =
+              fields.max_days_teacher - Math.floor(fields.max_days_teacher / 12) * noOfMonthsPassed;
+          } else {
+            let noOfMonthsPassed = new Date().getMonth();
+            fields.max_days_staff = fields.max_days_staff - Math.floor(fields.max_days_staff / 12) * noOfMonthsPassed;
+          }
+        }
+
         const remainingDays =
           req.user.user_type === 'TEACHER'
-            ? fields.max_days_teachers - total_no_of_days
+            ? fields.max_days_teacher - total_no_of_days
             : fields.max_days_staff - total_no_of_days;
-        if (newNoOfDays > (req.user.user_type === 'TEACHER' ? fields.max_days_teachers : fields.max_days_staff)) {
+
+        if (newNoOfDays > (req.user.user_type === 'TEACHER' ? fields.max_days_teacher : fields.max_days_staff)) {
           return res.json(
             remainingDays == 0
               ? {
@@ -247,7 +275,7 @@ export const updateLeave = async (req, res) => {
                 }
               : {
                   error: {
-                    date: `You have ${remainingDays} leaves remaining for ${fields.category_name}`,
+                    date: `You have only ${remainingDays} leaves remaining for ${fields.category_name}`,
                   },
                 }
           );

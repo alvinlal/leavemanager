@@ -27,10 +27,10 @@ const Staffs = () => {
 
   const renderStaffs = () => {
     if (isLoading) {
-      return <PulseAnimation noOfCells={6} />;
+      return <PulseAnimation noOfCells={7} />;
     } else if (staffs) {
       return staffs.map((staff, index) => {
-        const { staff_id, username, staff_firstname, staff_lastname, staff_designation, staff_status } = staff;
+        const { staff_id, username, staff_firstname, staff_lastname, staff_designation, staff_doj, staff_status } = staff;
         return (
           <div key={index} className='table-row h-24 w-full '>
             <div
@@ -52,6 +52,12 @@ const Staffs = () => {
               className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
             >
               {staff_designation}
+            </div>
+            <div
+              data-title='Date of joining'
+              className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle font-medium before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
+            >
+              {staff_doj}
             </div>
             <div
               data-title='Email'
@@ -114,6 +120,7 @@ const Staffs = () => {
           <div className='table-cell  rounded-tl-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Sl.No</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary '>Name</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-right align-middle text-lg font-bold text-primary md:text-center '>Designation</div>
+          <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-right align-middle text-lg font-bold text-primary md:text-center '>Date of joining</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-right align-middle text-lg font-bold text-primary md:text-center '>Email</div>
           <div className='table-cell border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Status</div>
           <div className='table-cell  rounded-tr-xl border-l-2 border-t-2 border-secondary p-3 text-center align-middle text-lg font-bold text-primary'>Actions</div>

@@ -3,12 +3,14 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import useFetch from '../../hooks/useFetch';
 import useSend from '../../hooks/useSend';
+import useUser from '../../hooks/useUser';
 import Spinner from '../Spinner';
 
 const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }) => {
   const [categories, setCategories] = useState(null);
   const [data, error, isCategoriesLoading] = useFetch(`${process.env.REACT_APP_API}/categories`, {});
   const { send, isLoading } = useSend();
+  const { user } = useUser();
   const {
     register,
     handleSubmit,
@@ -172,7 +174,8 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
         <div className='relative  h-20 w-auto'>
           <input
             type='date'
-            min={new Date(new Date().getFullYear(), 0, 1).toLocaleDateString('en-CA')}
+            //eslint-disable-next-line
+            min={new Date().getFullYear() == new Date(user.doj).getFullYear() ? user.doj : new Date(new Date().getFullYear(), 0, 1).toLocaleDateString('en-CA')}
             max={new Date(new Date().getFullYear(), 11, 31).toLocaleDateString('en-CA')}
             className={`peer h-10 w-[330px] rounded-[3px] border-2 bg-white  p-3 text-sm font-bold ${
               errors.leave_startDate ? 'border-red-600' : 'border-secondary focus:border-accent'
@@ -194,7 +197,7 @@ const LeaveModal = ({ handleClose, leaves, setLeaves, isEditing, defaultValues }
         <div className='relative h-auto min-h-[5rem] w-auto'>
           <input
             type='date'
-            min={new Date(new Date().getFullYear(), 0, 1).toLocaleDateString('en-CA')}
+            min={new Date().getFullYear() == new Date(user.doj).getFullYear() ? user.doj : new Date(new Date().getFullYear(), 0, 1).toLocaleDateString('en-CA')}
             max={new Date(new Date().getFullYear(), 11, 31).toLocaleDateString('en-CA')}
             className={`peer h-10 w-[330px] rounded-[3px] border-2 bg-white  p-3 text-sm font-bold ${
               errors.leave_endDate ? 'border-red-600' : 'border-secondary focus:border-accent'

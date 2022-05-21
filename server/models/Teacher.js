@@ -23,6 +23,10 @@ const Teacher = db.define(
       type: DataTypes.ENUM('Prof', 'Asst.Prof', 'HOD'),
       allowNull: false,
     },
+    teacher_doj: {
+      type: DataTypes.DATEONLY,
+      required: true,
+    },
     teacher_status: {
       type: DataTypes.BOOLEAN,
       defaultValue: 1,
