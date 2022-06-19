@@ -1,8 +1,10 @@
+import { SendEmailCommand } from '@aws-sdk/client-ses';
 import { Op } from 'sequelize';
 import Department from '../models/Department.js';
 import Teacher from '../models/Teacher.js';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import sesClient from '../config/sesClient.js';
 
 export const getAllTeachers = async (req, res) => {
   try {
@@ -72,7 +74,27 @@ export const addTeacher = async (req, res) => {
         ],
       }
     );
-    // send as SES mail with the password here
+    const data = `<h1>Your login credentials for leave management system </h1><p>username : ${username}</p><br><p>password : ${randomPassword}</p>`;
+    await sesClient.send(
+      new SendEmailCommand({
+        Source: process.env.AWS_SES_SOURCE,
+        Destination: {
+          ToAddresses: [username],
+        },
+        Message: {
+          Body: {
+            Html: {
+              Charset: 'UTF-8',
+              Data: data,
+            },
+          },
+          Subject: {
+            Charset: 'UTF-8',
+            Data: 'Login credentials for leave manager',
+          },
+        },
+      })
+    );
     return res.json({
       error: false,
       data: {
