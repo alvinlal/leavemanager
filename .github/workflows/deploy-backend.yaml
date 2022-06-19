@@ -1,6 +1,6 @@
 name: deploy-backend
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
   push:
     paths:
       - "server/**"
@@ -19,11 +19,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Configure AWS credentials 
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: arn:aws:iam::732313143489:role/leavemanager-github-actions
-          aws-region: ap-south-1  
+          aws-region: ap-south-1
       - name: Create Env files
         run: |
           touch .env
@@ -34,6 +34,7 @@ jobs:
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
           echo DB_DIALECT=${{ secrets.DB_DIALECT }} >> .env
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo AWS_SES_SOURCE=${{ secrets.AWS_SES_SOURCE }} >> .env
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
@@ -48,8 +49,5 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       - name: Webhook to ec2
-        run: | 
+        run: |
           curl --header "secret: ${{ secrets.HOOK_SECRET }}" --header "hash: ${{ github.sha }}"  http://api.leavemanager.co.in:9000/hooks/redeploy-webhook
-
-
-
