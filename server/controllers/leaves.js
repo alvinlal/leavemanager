@@ -153,6 +153,7 @@ export const addLeave = async (req, res) => {
         leave_approval_status: req.user.isHOD || req.user.user_type === 'STAFF' ? 'approved' : 'pending',
         ...(req.user.isHOD && { leave_approved_by: req.user.username }),
       });
+
       const oldPath = files.leave_slip_image.filepath;
       const newPath = path.join(global.__basedir, `/public/uploads/slips/${filename}.${extension}`);
       var source = fs.createReadStream(oldPath);
@@ -165,6 +166,7 @@ export const addLeave = async (req, res) => {
         global.logger.error(`${error.message} ${error.stack}`);
       });
       source.on('end', () => {});
+
       return res.json({
         error: false,
         data: {
@@ -342,4 +344,24 @@ export const updateLeave = async (req, res) => {
       return res.status(500).send('internal server error');
     }
   });
+};
+
+export const deleteLeave = async (req, res) => {
+  try {
+    const { leave_id } = req.body;
+    await Leave.destroy({
+      where: {
+        leave_id,
+      },
+    });
+    return res.json({
+      error: false,
+      data: {
+        leave_id,
+      },
+    });
+  } catch (err) {
+    global.logger.error(`${error.message} ${error.stack}`);
+    return res.status(500).send('internal server error');
+  }
 };

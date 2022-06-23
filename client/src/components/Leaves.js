@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PencilIcon, XIcon, ExclamationIcon, EyeIcon } from '@heroicons/react/outline';
+import { PencilIcon, XIcon, ExclamationIcon, EyeIcon, TrashIcon } from '@heroicons/react/outline';
 import useUser from '../hooks/useUser';
 import useFetch from '../hooks/useFetch';
 import useModal from '../hooks/useModal';
@@ -13,6 +13,22 @@ const Leaves = () => {
   const [data, error, isLoading] = useFetch(`${process.env.REACT_APP_API}/leaves`, {});
   const [isModalVisible, setIsModalVisible, toggleModal] = useModal(false);
   const { user } = useUser();
+
+  const deleteLeave = (leave_id) => {
+    console.log('click');
+    try {
+      fetch(`${process.env.REACT_APP_API}/leaves`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ leave_id }),
+      });
+      setLeaves(leaves.filter((leave) => leave.leave_id !== leave_id));
+    } catch (err) {}
+  };
 
   const renderLeaves = () => {
     if (isLoading) {
@@ -83,6 +99,9 @@ const Leaves = () => {
               className={`flex w-full items-center justify-between border-secondary p-3 text-center align-middle before:text-lg before:font-bold before:text-primary before:content-[attr(data-title)] md:table-cell  md:w-auto md:border-l-2 md:border-t-2 md:before:content-none`}
             >
               <div className='flex items-center justify-center'>
+                {leave_approval_status === 'pending' && (
+                  <TrashIcon className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto' onClick={() => deleteLeave(leave_id)} />
+                )}
                 {user.user_type === 'STAFF' ? (
                   <PencilIcon
                     className='h-7 w-7 cursor-pointer text-accent hover:scale-110 md:m-auto'
