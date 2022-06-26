@@ -35,6 +35,7 @@ jobs:
           echo DB_DIALECT=${{ secrets.DB_DIALECT }} >> .env
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
           echo AWS_SES_SOURCE=${{ secrets.AWS_SES_SOURCE }} >> .env
+          echo ORIGIN=${{ secrets.ORIGIN }} >> .env
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
