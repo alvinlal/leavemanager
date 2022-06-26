@@ -43,6 +43,9 @@ const Login = () => {
         <input type='email' placeholder='Email' required className='h-12 w-[300px] rounded-md border-2 border-gray-300 p-3 focus:border-accent' {...register('email')} />
         <input type='password' placeholder='Password' required className='h-12 w-[300px] rounded-md border-2 border-gray-300 p-3 focus:border-accent' {...register('password')} />
         <p className='font-semibold text-red-500'>{error}</p>
+        <p className='cursor-pointer text-blue-500' onClick={() => navigate('/forgotpassword')}>
+          Forgot password ?
+        </p>
         <button
           disabled={isLoading}
           type='submit'

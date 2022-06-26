@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { UserProvider } from './contexts/userContext';
 import Categories from './components/Categories';
 import RequireAuth from './helpers/RequireAuth';
@@ -17,6 +17,9 @@ import Approvals from './components/Approvals';
 import Details from './components/Details';
 import Security from './components/Security';
 import ErrorBoundary from './components/ErrorBoundary';
+import ForgotPassword from './components/ForgotPassword';
+import NotFound from './components/NotFound';
+import ChangePassword from './components/ChangePassword';
 
 const Reports = lazy(() => import('./components/Reports'));
 
@@ -125,6 +128,10 @@ const App = () => {
                     </RequireAuth>
                   }
                 />
+                <Route path='forgotpassword' element={<ForgotPassword />} />
+                <Route path='/user/change-password/:token' element={<ChangePassword />} />
+                <Route path='/404' element={<NotFound />} />
+                <Route path='*' element={<Navigate replace to='/404' />} />
               </Routes>
             </Suspense>
           </Base>

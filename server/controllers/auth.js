@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import Login from '../models/Login.js';
 import Staff from '../models/Staff.js';
 import Teacher from '../models/Teacher.js';
+import sendEmail from '../utils/sendEmail.js';
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -123,4 +124,56 @@ export const logout = (req, res) => {
   return res.json({
     success: true,
   });
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await Login.findByPk(email);
+    if (user) {
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+        expiresIn: '1h',
+      });
+      // send ses
+      sendEmail(
+        `<h1>Password reset link</h1><a href='${process.env.ORIGIN}/user/change-password/${token}'>click here to change your password</a>, this link is valid only for 1 hour.`,
+        email,
+        'Password reset'
+      );
+      return res.json({
+        success: true,
+      });
+    }
+    return res.json({
+      success: false,
+    });
+  } catch (err) {
+    global.logger.error(`${error.message} ${error.stack}`);
+    return res.status(500).send('Internal Server error');
+  }
+};
+
+export const changePassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+  try {
+    const { email } = jwt.verify(token, process.env.JWT_SECRET);
+    const hashedpassword = await bcrypt.hash(newPassword, 10);
+    await Login.update(
+      {
+        password: hashedpassword,
+      },
+      {
+        where: {
+          username: email,
+        },
+      }
+    );
+    return res.json({
+      error: false,
+    });
+  } catch (err) {
+    return res.json({
+      error: 'token expired',
+    });
+  }
 };

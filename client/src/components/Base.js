@@ -6,12 +6,15 @@ import Menu from './Menu';
 const Base = ({ children }) => {
   const { pathname } = useLocation();
   const [menuVisible, setMenuVisible] = useState(false);
+  const changePassPattern = /^\/user\/change-password\/./;
 
   return (
     <>
-      <Header toggleMenu={setMenuVisible} />
-      {pathname !== '/login' && <Menu menuVisible={menuVisible} toggleMenu={setMenuVisible} />}
-      <div className={`${pathname !== '/login' && 'md:ml-[270px] '}`}>{children}</div>
+      {pathname !== '/forgotpassword' && pathname !== '/404' && !changePassPattern.test(pathname) && <Header toggleMenu={setMenuVisible} />}
+      {pathname !== '/login' && pathname !== '/forgotpassword' && pathname !== '/404' && !changePassPattern.test(pathname) && (
+        <Menu menuVisible={menuVisible} toggleMenu={setMenuVisible} />
+      )}
+      <div className={`${pathname !== '/login' && pathname !== '/forgotpassword' && !changePassPattern.test(pathname) && 'md:ml-[270px] '}`}>{children}</div>
     </>
   );
 };
